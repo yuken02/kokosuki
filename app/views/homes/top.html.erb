@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row mt-5">
     <div class="col-md-8 mb-3">
-      <div class="movie_center"  style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">
+      <div class="movie_center" style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">
 				<div id="movie-play" style="position: absolute; top: 0; left: 0;"></div>
 			</div>
     </div>
@@ -76,7 +76,8 @@
 // 	}
 
 // 動画プレーヤーの読み込み
-	window.onYouTubeIframeAPIReady = function() {
+	function onYouTubeIframeAPIReady() {
+	// window.onYouTubeIframeAPIReady = function() {
     ytPlayer = new YT.Player('movie-play', {
       width: '100%',
       height: '100%',
@@ -84,7 +85,8 @@
 			playerVars:{
 				rel: 0, //関連動画なし
 				modestbranding: 1, //YouTube ロゴなし
-				disablekb: 0,
+				// disablekb: 0,
+				// enablejsapi: 1,
 				start: ytData[0]['start'],
 				end: ytData[0]['end'],
 			},
@@ -106,9 +108,9 @@
       'suggestedQuality': 'medium',
 			'rel': 0, //関連動画なし
 			'modestbranding': 1, //YouTube ロゴなし
-			// 'enablejsapi': 1,
+			// 'disablekb': 0, //キーボード操作有効
+			// 'enablejsapi': 1, //IFrame または JavaScript Player API を呼び出してプレーヤーを制御
 			// 'suggestedQuality': 'large',
-			'disablekb': 0 //キーボード操作有効
 		});
 	}
 
