@@ -28,7 +28,7 @@
       <div class="clip_container">
         <% @clips.each do |clip| %>
           <div class="clip_box">
-            <div style="width:60px;><img src="https://img.youtube.com/vi/<%= clip.video_id %>/default.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></img></div>
+            <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/default.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></img></div>
             <div><h6><%= clip.title %></h6></div>
 
           </div>
@@ -37,6 +37,15 @@
     </div>
     <div class="col-md-4">
       playlist
+      <%= form_with url: "/clips",method: :get, class: "" do |f| %>
+        <%= f.text_field :url, required: true %>
+        <button title="検索" type="submit" class="px-2">検索</button>
+      <% end %>
     </div>
+    <%= @video_id %></br>
+    <%= @url %></br>
+    <%= @published_at %></br>
+    <%= @channel_title %></br>
+    <%= @channel_url %>
   </div>
 </div>
