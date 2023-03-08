@@ -6,17 +6,17 @@
 			</div>
     </div>
 
-    <div class="col-md-4">
+		<div class="col-md-4">
 			<div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
-			  <label class="btn btn-secondary btn-md active">
-			    <input type="radio" name="options" id="option1" autocomplete="off" checked> 通常
-			  </label>
-			  <label class="btn btn-secondary btn-md">
-			    <input type="radio" name="options" id="continuous_playback" autocomplete="off"> 連続再生
-			  </label>
-			  <label class="btn btn-secondary btn-md">
-		      <input type="radio" name="options" id="shuffle_playback" autocomplete="off"> シャッフル
-			  </label>
+				<label class="btn btn-secondary btn-md active">
+					<input type="radio" name="options" id="option1" autocomplete="off" checked> 通常
+				</label>
+				<label class="btn btn-secondary btn-md">
+					<input type="radio" name="options" id="continuous_playback" autocomplete="off"> 連続再生
+				</label>
+				<label class="btn btn-secondary btn-md">
+					<input type="radio" name="options" id="shuffle_playback" autocomplete="off"> シャッフル
+				</label>
 			</div>
 
 			<div class="overflow-auto" style="height:50vh;">
@@ -76,8 +76,8 @@
 // 	}
 
 // 動画プレーヤーの読み込み
-	function onYouTubeIframeAPIReady() {
-	// window.onYouTubeIframeAPIReady = function() {
+	// function onYouTubeIframeAPIReady() {
+	window.onYouTubeIframeAPIReady = function() {
     ytPlayer = new YT.Player('movie-play', {
       width: '100%',
       height: '100%',
