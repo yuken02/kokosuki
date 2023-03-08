@@ -37,15 +37,21 @@
     </div>
     <div class="col-md-4">
       playlist
+    </div>
+
+    <div class="test mt-5 p-3 card">
+      <h5>test用</h5>
       <%= form_with url: "/clips",method: :get, class: "" do |f| %>
         <%= f.text_field :url, required: true %>
         <button title="検索" type="submit" class="px-2">検索</button>
-      <% end %>
+      <% end %></br>
+      <%= @video_id %></br>
+      <%= @url %></br>
+      <%= @published_at %></br>
+      <%= @channel_title %></br>
+      <%= @channel_url %></br>
+      <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= @video_id %>/default.jpg"></img></div>
     </div>
-    <%= @video_id %></br>
-    <%= @url %></br>
-    <%= @published_at %></br>
-    <%= @channel_title %></br>
-    <%= @channel_url %>
+
   </div>
 </div>
