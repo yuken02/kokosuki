@@ -1,36 +1,36 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-md-8">
-      <div class="clip_from_box">
-        新規登録ページへ移動予定
-        <%= form_with model: @clip_new, local: false, class: 'd-flex flex-wrap' do |f| %>
-          <div class="form-group mb-1 mr-2 col-12">
-            <%= f.label :video_url, "動画id", class: 'col-md-2 text-md-center' %>
-            <%= f.text_field :video_url, required: true, placeholder: '動画URL', class: 'text_field col-md-8' %>
-          </div>
-          <div class="form-group mb-1 mr-2 col-12">
-            <%= f.label :title, "タイトル", class: 'mb-1 col-md-2 text-md-center' %>
-            <%= f.text_field :title, required: true, placeholder: 'タイトル', class: 'text_field' %>
-          </div>
-          <div class="form-group mb-1 mr-2 col-12">
-            <%= f.label :title, "開始時間", class: 'mb-1 col-md-2 text-md-center' %>
-            <%= f.text_field :start, required: true, placeholder: '〇h〇m〇s', class: 'text_field' %>
-          </div>
-          <div class="form-group mb-1 mr-2 col-12">
-            <%= f.label :title, "終了時間", class: 'mb-1 col-md-2 text-md-center' %>
-            <%= f.text_field :end, required: true, placeholder: '〇h〇m〇s', class: 'text_field' %>
-          </div>
-          <div class="form-group mb-1 mx-auto">
-            <%= f.submit '登録', class: 'btn btn-sm btn-info px-5' %>
-          </div>
-        <% end %>
+      <div class="clip_contents">
+        <ul class="clip_lists">
+          <% @clips.each do |clip| %>
+            <li class="clip_item d-flex flex-wrap">
+              <div class="clip_img">
+                <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/default.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></img></div>
+                <div class="clip_date">クリップ作成日</div>
+                <div class="clip_time">クリップの時間</div>
+              </div>
+              <div class="list_item">
+                <h6 class="list_title"><%= clip.title %></h6>
+                <div class="clip_data">
+                  <div class="channel_name">チャンネル</div>
+                  <div class="clip_user">製作者</div>
+                  <div class="tag_list">タグ</div>
+                  <div class="item_data">
+                    <ul><li class="video_date">元登校日</li><li class="favorites">いいね</li></ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
       </div>
+
       <div class="clip_container">
         <% @clips.each do |clip| %>
           <div class="clip_box">
             <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/default.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></img></div>
             <div><h6><%= clip.title %></h6></div>
-
           </div>
         <% end %>
       </div>
