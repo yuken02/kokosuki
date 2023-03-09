@@ -2,6 +2,9 @@
   <div class="row my-5">
     <div class="col-md-8">
       <div class="clip_contents">
+        <div class="new_clip">
+          <%= link_to ' + ', new_clip_path, class: 'btn btn-md btn-outline-primary' %>
+        </div>
         <ul class="clip_lists">
           <% @clips.each do |clip| %>
             <li class="clip_item d-flex flex-wrap">
