@@ -24,6 +24,7 @@
                   </div>
                 </div>
               </div>
+              <div><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
             </li>
           <% end %>
         </ul>
@@ -45,7 +46,11 @@
     <div class="test mt-5 p-3 card">
       <h5>test用</h5>
       <%= form_with url: "/clips",method: :get, class: "" do |f| %>
-        <%= f.text_field :url, required: true %>
+        <%= f.text_field :url, required: true, placeholder: 'URL' %>
+        <button title="検索" type="submit" class="px-2">検索</button>
+      <% end %></br>
+      <%= form_with url: "/clips",method: :get, class: "" do |f| %>
+        <%= f.text_field :time, required: true, placeholder: '〇h〇m〇s' %>
         <button title="検索" type="submit" class="px-2">検索</button>
       <% end %></br>
       <%= @video_id %></br>
@@ -53,6 +58,7 @@
       <%= @published_at %></br>
       <%= @channel_title %></br>
       <%= @channel_url %></br>
+      <%= @seconds %></br>
       <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= @video_id %>/default.jpg"></img></div>
     </div>
 
