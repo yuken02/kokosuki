@@ -6,7 +6,6 @@ class ClipsController < ApplicationController
     # require 'google/api_client'
     require 'date'
 
-    # @url = params[:url]
     time = params[:time]
     if time
       @seconds = time_to_second(time)
@@ -28,7 +27,7 @@ class ClipsController < ApplicationController
     start_time = params[:start]
     end_time = params[:end]
     get_video_id(video_url)
-    @clip = Clip.new(clip_params.merge(video_id: video_id, published_at: published_at, channel_id: channel_id, user_id: 1))
+    @clip = Clip.new(clip_params.merge(video_id: video_id, start, , published_at: published_at, channel_id: channel_id, user_id: 1))
     if @clip.save
       redirect_to clips_path
     else
@@ -78,7 +77,7 @@ class ClipsController < ApplicationController
     # minutes = time_array.pop.to_i unless time_array.empty?
     # hours = time_array.pop.to_i unless time_array.empty?
     # (hours * 60 * 60) + (minutes * 60) + seconds
-    ### chatGPT 4
+    ### chatGPT 4 完成版
     # regex = /(\d+h)?(\d+m)?(\d+s)?/
     # matches = time_string.match(regex).captures
     # hours = matches[0].to_i

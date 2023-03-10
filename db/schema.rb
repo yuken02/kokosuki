@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_05_203518) do
+ActiveRecord::Schema.define(version: 2023_03_10_194727) do
 
   create_table "channels", force: :cascade do |t|
     t.string "name", null: false
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2023_03_05_203518) do
   create_table "clips", force: :cascade do |t|
     t.string "title", null: false
     t.integer "video_id", null: false
-    t.integer "start"
-    t.integer "end"
+    t.integer "start_time"
+    t.integer "end_time"
     t.datetime "published_at", null: false
     t.string "channel_id", null: false
     t.integer "user_id", null: false
