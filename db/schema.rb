@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_10_194727) do
+ActiveRecord::Schema.define(version: 2023_03_10_222558) do
 
   create_table "channels", force: :cascade do |t|
     t.string "name", null: false
-    t.string "yt_cannel_id", null: false
+    t.string "yt_channel_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

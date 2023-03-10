@@ -2,7 +2,7 @@
   <div class="row my-5">
     <div class="col-md-8">
       <div class="clip_from_box">
-        <%= form_with model: @clip_new, local: false, class: 'd-flex flex-wrap' do |f| %>
+        <%= form_with url: clips_path, local: false, class: 'd-flex flex-wrap' do |f| %>
           <div class="form-group mb-1 mr-2 col-12">
             <%= f.label :video_url, "動画id", class: 'col-md-2 text-md-center' %>
             <%= f.text_field :video_url, required: true, placeholder: '動画URL', class: 'text_field col-md-8' %>
@@ -13,11 +13,11 @@
           </div>
           <div class="form-group mb-1 mr-2 col-12">
             <%= f.label :start, "開始時間", class: 'mb-1 col-md-2 text-md-center' %>
-            <%= f.text_field :start, required: true, placeholder: '〇h〇m〇s', class: 'text_field' %>
+            <%= f.text_field :start, placeholder: '〇h〇m〇s', class: 'text_field' %>
           </div>
           <div class="form-group mb-1 mr-2 col-12">
             <%= f.label :end, "終了時間", class: 'mb-1 col-md-2 text-md-center' %>
-            <%= f.text_field :end, required: true, placeholder: '〇h〇m〇s', class: 'text_field' %>
+            <%= f.text_field :end, placeholder: '〇h〇m〇s', class: 'text_field' %>
           </div>
           <div class="form-group mb-1 mx-auto">
             <%= f.submit '登録', class: 'btn btn-sm btn-info px-5' %>
