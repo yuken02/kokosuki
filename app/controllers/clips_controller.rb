@@ -90,17 +90,21 @@ class ClipsController < ApplicationController
   end
 
   def get_video_id(video_url)
-    if video_url.include?("t=")
-      @seconds = video_url.split('t=').last
+    if video_url.include?("?t=") # 時間指定URL
+      @seconds = video_url.split("?t=").last
+      video_url = video_url.split('?t=').first
+    elsif video_url.include?("&t=")
+      @seconds = video_url.split("&t=").last.delete("s")
+      video_url = video_url.split('&t=').first
     end
-    if video_url.include?("&list=")
+    if video_url.include?("&list=") # プレイリストURL
       redirect_to clips_path, alert: "このURLには対応していません。"
       return
-    elsif video_url.include?("youtube.com/watch?v=")
+    elsif video_url.include?("youtube.com/watch?v=") # URLバー
       video_id = video_url.split("v=").last
-    elsif video_url.include?("youtu.be/")
+    elsif video_url.include?("youtu.be/") # シェア用URL
       video_id = video_url.split("/").last
-    elsif video_url.include?("youtube.com/live/")
+    elsif video_url.include?("youtube.com/live/") #
       video_id = video_url.split("/").last.split("?").first
     end
     get_video_info(video_id)
