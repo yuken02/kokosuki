@@ -22,3 +22,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+## 設計書
+
+- [ER図](https://drive.google.com/file/d/1vDF741NdXaLlOICz6yhSN1G-railSnjG/view?usp=sharing)
+
+- [テーブル定義書](https://docs.google.com/spreadsheets/d/1yvR63KCclyYzLdNhUEQmP9UUwgswFPdBCkB2yiCLNEs/edit?usp=sharing)
+
+- [アプリケーション詳細設計書]
