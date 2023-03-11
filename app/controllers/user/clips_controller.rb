@@ -25,13 +25,14 @@ class User::ClipsController < ApplicationController
   def create
     @clip = Clip.new
     # @clip = Clip.new(clip_params)
+    @clip.title = params[:title]
     start_t = params[:start]
     if start_t
-      start_time = time_to_second(start_t)
+      @clip.start_time = time_to_second(start_t)
     end
     end_t = params[:end]
     if end_t
-      end_time = time_to_second(end_t)
+      @clip.end_time = time_to_second(end_t)
     end
     video_url = params[:video_url]
     get_video_id(video_url)
@@ -46,9 +47,11 @@ class User::ClipsController < ApplicationController
       channel = Channel.create(name: @yt_channel_name, yt_channel_id: @yt_channel_id)
       @clip.channel_id = channel.id
     end
-    @clip.user_id = 1
+    @clip.video_id = @video_id
+    @clip.published_at = @published_at
+    @clip.user_id = current_user.id
     # @clip = Clip.new(clip_params.merge(video_id: video_id, start_time: start_time, end_time: end_time, published_at: @published_at, channel_id: channel_id))
-    if @clip.save!
+    if @clip.save
       redirect_to clips_path, notice: "クリップを作成しました"
     else
       # redirect_to clips_path, alert: "クリップを作成できませんでした"
@@ -161,7 +164,7 @@ class User::ClipsController < ApplicationController
   # end
 
   def clip_params
-    params.require(:clip).permit(:title, :video_id, :start_time, :end_time, :published_at, :channel_id, :user_id)
-    # params.require(:clip).permit(:title)
+    # params.require(:clip).permit(:title, :video_id, :start_time, :end_time, :published_at, :channel_id, :user_id)
+    params.require(:clip).permit(:title)
   end
 end
