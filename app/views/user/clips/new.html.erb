@@ -3,6 +3,7 @@
     <div class="col-md-8">
       <div class="clip_from_box">
         <%= form_with url: clips_path, local: false, class: 'd-flex flex-wrap' do |f| %>
+          <%#= render 'layouts/errors', obj: @clip %>
           <div class="form-group mb-1 mr-2 col-12">
             <%= f.label :video_url, "動画id", class: 'col-md-2 text-md-center' %>
             <%= f.text_field :video_url, required: true, placeholder: '動画URL', class: 'text_field col-md-8' %>
