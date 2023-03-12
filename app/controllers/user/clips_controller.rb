@@ -24,22 +24,22 @@ class User::ClipsController < ApplicationController
 
   def create
     @clip = Clip.new
-    # @clip = Clip.new(clip_params)
     @clip.title = params[:title]
-    start_t = params[:start]
-    if start_t
-      @clip.start_time = time_to_second(start_t)
+    if start_t = params[:start]
+      start_time = time_to_second(start_t)
+      if start_time != 0
+        @clip.start_time = start_time
+      end
     end
-    end_t = params[:end]
-    if end_t
-      @clip.end_time = time_to_second(end_t)
+    if end_t = params[:end]
+      end_time = time_to_second(end_t)
+      if end_time != 0
+        @clip.end_time = end_time
+      end
     end
     video_url = params[:video_url]
     get_video_id(video_url)
-    # video_id = get_video_id(video_url)
-    # get_video_info(video_id)
 
-    # channel_find(yt_channel_id)
     channel = Channel.find_by(yt_channel_id: @yt_channel_id)
     if channel.present?
       @clip.channel_id = channel.id
@@ -50,18 +50,15 @@ class User::ClipsController < ApplicationController
     @clip.video_id = @video_id
     @clip.published_at = @published_at
     @clip.user_id = current_user.id
-    # @clip = Clip.new(clip_params.merge(video_id: video_id, start_time: start_time, end_time: end_time, published_at: @published_at, channel_id: channel_id))
     if @clip.save
       redirect_to clips_path, notice: "クリップを作成しました"
     else
-      # redirect_to clips_path, alert: "クリップを作成できませんでした"
-      # render new_clip_path
       render 'new'
     end
   end
 
   def destroy
-    clip = Clip.find(param[:id])
+    clip = Clip.find(params[:id])
     clip.destroy
     @clips = Clip.all
     redirect_to request.referer, notice: "クリップを削除しました"
@@ -90,6 +87,11 @@ class User::ClipsController < ApplicationController
       time_second = time_string.delete("s")
     end
     (time_hour.to_i * 60 * 60) + (time_minute.to_i * 60) + time_second.to_i
+    # second = (time_hour.to_i * 60 * 60) + (time_minute.to_i * 60) + time_second.to_i
+    # if second != 0
+    #   seconde
+    # end
+
     ### chatGPT 1
     # @seconds = ActiveSupport::Duration.parse(time_string).to_i
     ### chatGPT 2
@@ -153,18 +155,7 @@ class User::ClipsController < ApplicationController
       @channel_url = "https://www.youtube.com/channel/#{video.snippet.channel_id}"
   end
 
-  # def chennel_find(yt_channel_id)
-  #   channel = Channel.find_by(url: yt_channel_id)
-  #   if channel.present?
-  #     clip.channel_id = chennel.id
-  #   else
-  #     channel.create(title: channel_title, url: yt_channel_id)
-  #     clip.channel_id = chennel.id
-  #   end
-  # end
-
   def clip_params
-    # params.require(:clip).permit(:title, :video_id, :start_time, :end_time, :published_at, :channel_id, :user_id)
-    params.require(:clip).permit(:title)
+    params.require(:clip).permit(:title, :start, :end, :video_url)
   end
 end
