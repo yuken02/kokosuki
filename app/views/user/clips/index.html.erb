@@ -1,37 +1,50 @@
 <div class="container">
   <div class="row my-5">
-    <div class="col-md-8">
+    <div class="col-md-9">
       <div class="clip_contents">
         <% if user_signed_in? %>
           <div class="new_clip">
-            <%= link_to ' + ', new_clip_path, class: 'btn btn-md btn-outline-primary' %>
+            <%= link_to ' + ', new_clip_path, class: 'btn btn-md px-4 mb-3 btn-outline-primary' %>
           </div>
         <% end %>
-        <ul class="clip_lists">
+        <ul class="clip_lists list-group list-group-flush">
           <% @clips.each do |clip| %>
-            <li class="clip_item d-flex flex-wrap">
-              <div class="clip_img">
-                <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/default.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></img></div>
-                <div class="clip_date">クリップ作成日</div>
-                <div class="clip_time">クリップの時間</div>
+            <li class="clip_list list-group-item d-flex flex-wrap">
+              <div class="clip_left mr-3">
+                <div class="clip_img mb-1" style="position: relative; width: 100%; padding-top: 56.25%;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></img></div>
+                <!--<div class="clip_img" style="width:160px; aspect-ratio:16 / 9;"><img src="https://img.youtube.com/vi/<%#= clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="object-fit: scale-down; max-width:100%; height: auto;"></img></div>-->
+                <div class="clip_date"><p class="mb-0" style="font-size:9px;">クリップ作成日:<%= clip.created_at.strftime('%Y/%m/%d') %></p></div>
+                <div class="clip_time"><p class="mb-1" style="font-size:9px;">クリップの時間:
+                    <% if clip.end_time %>
+                      <%= (clip.end_time.to_i - clip.start_time.to_i) %>
+                    <% end %>
+                  </p>
+                </div>
               </div>
               <div class="list_item">
                 <h6 class="list_title"><%= clip.title %></h6>
                 <div class="clip_data">
-                  <div class="channel_name">チャンネル</div>
-                  <div class="clip_user">製作者</div>
+                  <div class="channel_name">チャンネル:<a href="https://www.youtube.com/channel/<%= @yt_channel_id %>"><%= @yt_channel_name %></a></div>
+                  <div class="clip_user">製作者:</div>
                   <div class="tag_list">タグ</div>
                   <div class="item_data">
-                    <ul><li class="video_date">元投稿日</li><li class="favorites">いいね</li></ul>
+                    <ul class="list-group list-group-horizontal list-unstyled" style="font-size:12px;">
+                      <li class="mr-2 video_date">元投稿日:<%= clip.published_at.strftime('%Y/%m/%d') %></li>
+                      <li class="favorites">いいね</li>
+                    </ul>
                   </div>
                 </div>
               </div>
-              <div><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
+              <div class="ml-auto"><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
             </li>
           <% end %>
+            <li class="list-group-item list-group-item-secondary">test</li>
         </ul>
       </div>
 
+    </div>
+    <div class="col-md-3">
+      playlist
       <div class="clip_container">
         <% @clips.each do |clip| %>
           <div class="clip_box">
@@ -40,9 +53,6 @@
           </div>
         <% end %>
       </div>
-    </div>
-    <div class="col-md-4">
-      playlist
     </div>
 
     <div class="test mt-5 p-3 card">
@@ -58,11 +68,199 @@
       <%= @video_id %></br>
       <%= @url %></br>
       <%= @published_at %></br>
-      <%= @channel_title %></br>
+      <%= @yt_channel_id %></br>
+      <a href="https://www.youtube.com/channel/<%= @yt_channel_id %>"><%= @yt_channel_name %></a></br>
       <%= @channel_url %></br>
       <%= @seconds %></br>
-      <div style="width:60px;"><img src="https://img.youtube.com/vi/<%= @video_id %>/default.jpg"></img></div>
+      <div style="width:30%;">
+        <div style="position: relative; width: 100%; padding-top: 56.25%;"><img src="https://img.youtube.com/vi/<%= @video_id %>/hqdefault.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></img></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-8 mb-3">
+      <div class="movie_center" style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">
+				<div id="movie-play" style="position: absolute; top: 0; left: 0;"></div>
+			</div>
     </div>
 
+		<div class="col-md-4">
+			<div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+				<label class="btn btn-secondary btn-md active">
+					<input type="radio" name="options" id="option1" autocomplete="off" checked> 通常
+				</label>
+				<label class="btn btn-secondary btn-md">
+					<input type="radio" name="options" id="continuous_playback" autocomplete="off"> 連続再生
+				</label>
+				<label class="btn btn-secondary btn-md">
+					<input type="radio" name="options" id="shuffle_playback" autocomplete="off"> シャッフル
+				</label>
+			</div>
+
+			<div class="overflow-auto" style="height:50vh;">
+				<div id="movie-menu" class="list-group d-flex flex-wrap" style="">
+          <% @clips.each do |clip| %>
+            <div class="btn list-group-item list-group-item-action px-auto d-flex flex-row" id="" style="">
+              <div class="" style="width:25%;">
+                <div class="mr-2" style="position: relative; width: 100%; padding-top: 56.25%;">
+                  <img src="https://img.youtube.com/vi/<%= clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div class="ml-2"><%= clip.title %></div>
+            </div>
+					<% end %>
+
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-row" id="" style="">
+						<div class="" style="width:25%;">
+							<div class="mr-2" style="position: relative; width: 100%; padding-top: 56.25%;">
+								<img src="https://img.youtube.com/vi/CQnKxeE2IbQ/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+							</div>
+						</div>
+						<div class="ml-2">LAST STARDUST</div>
+					</div>
+					<!--<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id="" style=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/CQnKxeE2IbQ/default.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>LAST STARDUST</div>-->
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/CQnKxeE2IbQ/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>you</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/CQnKxeE2IbQ/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>点描の唄</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/SjuAIIe0Op0/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>ステラ</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/bVQ83PuM8qo/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>残響讃歌</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/LbaxU0-3wB8/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>シャルル</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/B_FSf9q8Teo/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>Virtual to LIVE</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/eXsrobcgs9E/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>only my railgun</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/B3LdMKVGXBY/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>白日</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/Yq4qu5WiPY8/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>Pretender</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/Y98vM_pWsJE/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>Mela!</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/6N1beg6Z_Ks/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>かつて天才だった俺へ</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/_ptGJpzO0sM/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>アイネクライネ</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/7jbw2xmFliI/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>ETERNAL WIND 〜ほほえみは光る風の中〜</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/lAo2WGB68Jo/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>独りんぼエンヴィ</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/luad14F4__c/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>MIRA</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/n6cAE2ue84w/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>神っぽいな</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/Dg6dG3U6n-c/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>神っぽいな</div>
+					<div class="btn list-group-item list-group-item-action px-auto d-flex flex-nowrap" id=""><div class="mr-2" style="width:60px;"><img src="https://img.youtube.com/vi/E7ZoxfoRxWw/hqdefault.jpg" alt="" class="img-fluid" style="max-width:100%; height: auto;"></div>SOS</button>
+				</div>
+			</div>
+		</div>
   </div>
 </div>
+
+
+<script>
+//IFrame Player APIを呼び出す
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+//プレーヤーの準備
+	var ytNum = 0;
+	let thumbInsert = '';
+	let ytPlayer;
+	let ytData = [
+	  //{ youtubeのID, 開始時間(秒), 終了時間(秒) },
+	  <% @clips.each do |clip| %>
+	    { id: '<%= clip.video_id %>', start: '<%= clip.start_time %>', end: '<%= clip.end_time %>' },
+	  <% end %>
+		{ id: 'CQnKxeE2IbQ', start: '1069', end: '1385' },
+		{ id: 'CQnKxeE2IbQ', start: '2146', end: '2380' },
+		{ id: 'CQnKxeE2IbQ', start: '2388', end: '2694' },
+		{ id: 'SjuAIIe0Op0', start: '2193', end: '2516' },
+		{ id: 'bVQ83PuM8qo', start: '646', end: '828' },
+		{ id: 'LbaxU0-3wB8', start: '611', end: '841' },
+		{ id: 'B_FSf9q8Teo', start: '', end: '' },
+		{ id: 'eXsrobcgs9E', start: '455', end: '706' },
+		{ id: 'B3LdMKVGXBY', start: '', end: '' },
+		{ id: 'Yq4qu5WiPY8', start: '', end: '' },
+		{ id: 'Y98vM_pWsJE', start: '', end: '' },
+		{ id: '6N1beg6Z_Ks', start: '', end: '' },
+		{ id: '_ptGJpzO0sM', start: '', end: '' },
+		{ id: '7jbw2xmFliI', start: '', end: '' },
+		{ id: 'lAo2WGB68Jo', start: '', end: '' },
+		{ id: 'luad14F4__c', start: '', end: '' },
+		{ id: 'n6cAE2ue84w', start: '915', end: '1119' },
+		{ id: 'Dg6dG3U6n-c', start: '', end: '' },
+		{ id: 'E7ZoxfoRxWw', start: '' },
+	];
+
+// 動画プレーヤーの読み込み
+	// function onYouTubeIframeAPIReady() {
+	window.onYouTubeIframeAPIReady = function() {
+    ytPlayer = new YT.Player('movie-play', {
+      width: '100%',
+      height: '100%',
+      videoId: ytData[0]['id'],
+			playerVars:{
+				rel: 0, //関連動画なし
+				modestbranding: 1, //YouTube ロゴなし
+				start: ytData[0]['start'],
+				end: ytData[0]['end'],
+			},
+			events: { /* イベント */
+        'onReady': onPlayerReady,   /* プレーヤの準備完了時 */
+        'onStateChange': onPlayerStateChange   /* 動画プレーヤーのステータス変更 */
+      }
+    });
+  }
+	//動画の再生
+	function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+	function play(ytNum) {
+		ytPlayer.loadVideoById({
+			'videoId': ytData[ytNum]['id'],
+      'startSeconds': ytData[ytNum]['start'],
+      'endSeconds': ytData[ytNum]['end'],
+      'suggestedQuality': 'medium',
+			'rel': 0, //関連動画なし
+			'modestbranding': 1,
+		});
+	}
+
+//リストクリック
+	$(function() {
+	  /* 指定した動画を再生 */
+		$('#movie-menu .btn').on('click', function() {
+			ytNum = $('#movie-menu .btn').index(this)
+				console.log(ytNum);
+				console.log(ytData[ytNum]['id']);
+			play(ytNum);
+			return false;
+		});
+	});
+
+// 連続再生
+	function onPlayerStateChange(event) {
+		if ($('#continuous_playback').parent().hasClass('active')) {
+				console.log(event);
+			playback(event);
+			if (event.data == YT.PlayerState.ENDED) { //ENDED == 0
+				if (playlog == 11) {
+					playlog = 22;
+					ytNum = parseInt(ytNum) + 1;
+						console.log(playlog);
+						console.log(ytNum);
+					play(ytNum);
+				}
+			}
+		} else if ($('#shuffle_playback').parent().hasClass('active')) {
+			console.log(event);
+			playback(event);
+			if (event.data == YT.PlayerState.ENDED) {
+				if (playlog == 11) {
+					ytNum = Math.floor( Math.random() * ytData.length );
+					playlog = 22;
+						console.log(playlog);
+						console.log(ytNum);
+					play(ytNum);
+				}
+			}
+		}
+	}
+
+	function playback(event) {
+		if (event.data == 1) {
+			playlog = 11;
+			console.log(playlog);
+		}
+	}
+</script>
