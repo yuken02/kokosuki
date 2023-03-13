@@ -24,12 +24,15 @@
               <div class="list_item">
                 <h6 class="list_title"><%= clip.title %></h6>
                 <div class="clip_data">
-                  <div class="channel_name">チャンネル:<a href="https://www.youtube.com/channel/<%= @yt_channel_id %>"><%= @yt_channel_name %></a></div>
-                  <div class="clip_user">製作者:</div>
-                  <div class="tag_list">タグ</div>
+                  <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= @yt_channel_id %>" class=""><%= @yt_channel_name %></a></p></div>
+                  <div class="video_date"><p class="mb-0" style="font-size:12px;">投稿日: <%= clip.published_at.strftime('%Y/%m/%d') %></p></div>
+                  <div class="tag_list">
+                    <ul class="list-group list-group-horizontal list-unstyled" style="font-size:14px;">
+                      <p class="mb-0">タグ:</p><li class="clip_tag ml-1 mr-2 mb-0">test</li>
+                    </div>
                   <div class="item_data">
                     <ul class="list-group list-group-horizontal list-unstyled" style="font-size:12px;">
-                      <li class="mr-2 video_date">元投稿日:<%= clip.published_at.strftime('%Y/%m/%d') %></li>
+                      <li class="clip_user mr-2">クリップ者: <%= clip.user.name %></li>
                       <li class="favorites">いいね</li>
                     </ul>
                   </div>
@@ -270,7 +273,7 @@
 
   function spotArea(ytNum) {
     console.log(ytNum);
-    $('.playlist_clip').removeClass('bg-light');
-    $('.playlist_clip').eq(ytNum).addClass('bg-light');
+    $('.playlist_clip').removeClass('bg-danger');
+    $('.playlist_clip').eq(ytNum).addClass('bg-danger');
   }
 </script>

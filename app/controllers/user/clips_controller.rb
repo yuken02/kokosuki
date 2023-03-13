@@ -1,7 +1,8 @@
 class User::ClipsController < ApplicationController
   def index
     @clip_new = Clip.new
-    @clips = Clip.all
+    # @clips = Clip.all
+    @clips = Clip.includes(:user)
 
     # require 'google/api_client'
     require 'date'
