@@ -24,7 +24,7 @@
               <div class="list_item">
                 <h6 class="list_title"><%= clip.title %></h6>
                 <div class="clip_data">
-                  <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= @yt_channel_id %>" class=""><%= @yt_channel_name %></a></p></div>
+                  <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= clip.channel.yt_channel_id %>" class=""><%= clip.channel.name %></a></p></div>
                   <div class="video_date"><p class="mb-0" style="font-size:12px;">投稿日: <%= clip.published_at.strftime('%Y/%m/%d') %></p></div>
                   <div class="tag_list">
                     <ul class="list-group list-group-horizontal list-unstyled" style="font-size:14px;">
