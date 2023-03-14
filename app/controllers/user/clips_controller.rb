@@ -60,6 +60,9 @@ class User::ClipsController < ApplicationController
 
   def time_to_second(time_string)
     ###
+    unless time_string.match?(/[hms]/)
+      return time_string
+    end
     time_hour = time_minute = time_second = 0
     if time_string.include?("h")
       time_hour = time_string.split("h").first
