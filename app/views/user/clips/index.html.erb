@@ -29,7 +29,8 @@
                   <div class="tag_list">
                     <ul class="list-group list-group-horizontal list-unstyled" style="font-size:14px;">
                       <p class="mb-0">タグ:</p><li class="clip_tag ml-1 mr-2 mb-0">test</li>
-                    </div>
+                    </ul>
+                  </div>
                   <div class="item_data">
                     <ul class="list-group list-group-horizontal list-unstyled" style="font-size:12px;">
                       <li class="clip_user mr-2">クリップ者: <%= clip.user.name %></li>
@@ -104,7 +105,7 @@
 			<div class="overflow-auto" style="height:50vh;">
 				<div id="movie-menu" class="list-group d-flex flex-wrap" style="">
           <% @clips.each do |clip| %>
-            <div class="btn list-group-item list-group-item-action px-auto d-flex flex-row" id="" style="">
+            <div class="playlist_clip list-group-item list-group-item-action btn px-auto d-flex flex-row" id="" style="">
               <div class="" style="width:25%;">
                 <div class="mr-2" style="position: relative; width: 100%; padding-top: 56.25%;">
                   <img src="https://img.youtube.com/vi/<%= clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
@@ -114,7 +115,7 @@
             </div>
 					<% end %>
 
-					<div class="playlist_item btn list-group-item list-group-item-action px-auto d-flex flex-row" id="" style="">
+					<div class="playlist_clip list-group-item list-group-item-action btn px-auto d-flex flex-row" id="" style="">
 						<div class="" style="width:25%;">
 							<div class="mr-2" style="position: relative; width: 100%; padding-top: 56.25%;">
 								<img src="https://img.youtube.com/vi/CQnKxeE2IbQ/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
@@ -203,6 +204,7 @@
         'onStateChange': onPlayerStateChange   /* 動画プレーヤーのステータス変更 */
       }
     });
+    spotArea(ytNum);
   }
 	//動画の再生
 	function onPlayerReady(event) {
@@ -223,8 +225,8 @@
 //リストクリック
 	$(function() {
 	  /* 指定した動画を再生 */
-		$('#movie-menu .btn').on('click', function() {
-			ytNum = $('#movie-menu .btn').index(this)
+		$('#movie-menu .playlist_clip').on('click', function() {
+			ytNum = $('#movie-menu .playlist_clip').index(this)
 				console.log(ytNum);
 				console.log(ytData[ytNum]['id']);
 			spotArea(ytNum);
@@ -273,7 +275,8 @@
 
   function spotArea(ytNum) {
     console.log(ytNum);
-    $('.playlist_clip').removeClass('bg-danger');
-    $('.playlist_clip').eq(ytNum).addClass('bg-danger');
+    ytNum = parseInt(ytNum);
+    $('.playlist_clip').removeClass('bg-secondary');
+    $('.playlist_clip').eq(ytNum).addClass('bg-secondary');
   }
 </script>
