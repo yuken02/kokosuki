@@ -15,6 +15,11 @@
         <% if user_signed_in? %>
 
           <li class="log_out">
+            <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
+              <i class="fas fa-user"></i> マイページ
+            <% end %>
+          </li>
+          <li class="log_out">
             <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
               <i class="fas fa-sign-out-alt"></i> ログアウト
             <% end %>
