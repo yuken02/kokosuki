@@ -1,0 +1,9 @@
+<% if clip.favorited_by?(current_user) %>
+    <%= link_to clip_favorites_path(clip), class: 'text-danger', method: :delete, remote: true do %>
+      いいね♥ <%= clip.favorites.count %>
+    <% end %>
+<% else %>
+    <%= link_to clip_favorites_path(clip), class: 'text-primary', method: :post, remote: true do %>
+      いいね♥ <%= clip.favorites.count %>
+    <% end %>
+<% end %>
