@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row my-5">
+
     <div class="col-md-9">
       <div class="clip_contents">
         <% if user_signed_in? %>
@@ -33,7 +34,7 @@
                   </div>
                   <div class="item_data">
                     <ul class="list-group list-group-horizontal list-unstyled" style="font-size:12px;">
-                      <li class="clip_user mr-2">クリップ者:
+                      <li class="clip_user mr-3">クリップ者:
                         <%= link_to user_path(clip.user_id) do %>
                           <%= clip.user.name %>
                         <% end %>
@@ -43,14 +44,13 @@
                   </div>
                 </div>
               </div>
-              <div class="ml-auto"><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
             </li>
           <% end %>
             <li class="list-group-item list-group-item-secondary">test</li>
         </ul>
       </div>
-
     </div>
+
     <div class="col-md-3">
       playlist
       <div class="clip_container">
@@ -233,7 +233,7 @@
 			ytNum = $('#movie-menu .playlist_clip').index(this)
 				console.log(ytNum);
 				console.log(ytData[ytNum]['id']);
-			spotArea(ytNum);
+		// 	spotArea(ytNum);
 			play(ytNum);
 			return false;
 		});
