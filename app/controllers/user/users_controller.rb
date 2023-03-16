@@ -3,6 +3,7 @@ class User::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
+    @playlist = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
 
         # case params[:template]
         #   when 'clips_list'

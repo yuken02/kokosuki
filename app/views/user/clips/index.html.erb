@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div class="list_item">
-                <h6 class="list_title"><%= clip.title %></h6>
+                <h6 class="list_title"><%= link_to clip_path(clip.id) do %><%= clip.title %><% end %></h6>
                 <div class="clip_data">
                   <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= clip.channel.yt_channel_id %>" class=""><%= clip.channel.name %></a></p></div>
                   <div class="video_date"><p class="mb-0" style="font-size:12px;">投稿日: <%= clip.published_at.strftime('%Y/%m/%d') %></p></div>
@@ -39,7 +39,11 @@
                           <%= clip.user.name %>
                         <% end %>
                       </li>
-                      <li id="favorite_btn_<%= clip.id %>"><%= render 'user/favorites/favorite_btn', clip: clip %></li>
+                      <li class="mr-5" id="favorite_btn_<%= clip.id %>"><%= render 'user/favorites/favorite_btn', clip: clip %></li>
+                      <li class="add_to_playlist">
+                        <%#= link_to %>
+                        <i class="fas fa-folder-plus"></i>
+                      </li>
                     </ul>
                   </div>
                 </div>

@@ -12,7 +12,9 @@ Rails.application.routes.draw do
       resource :favorites, only: [:create, :destroy]
     end
     resources :users, only: [:show, :edit, :update]
-
+    resources :playlists, only: [:show, :new, :create, :edit, :update, :destroy] do
+      resource :playlist_videos, only: [:create, :destroy]
+    end
   end
 
   # URL /customers/sign_in ...
