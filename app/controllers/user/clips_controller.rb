@@ -98,7 +98,7 @@ class User::ClipsController < ApplicationController
     # minutes = time_array.pop.to_i unless time_array.empty?
     # hours = time_array.pop.to_i unless time_array.empty?
     # (hours * 60 * 60) + (minutes * 60) + seconds
-    ### chatGPT 4 完成版
+    ### chatGPT 完成版
     # regex = /(\d+h)?(\d+m)?(\d+s)?/
     # matches = time_string.match(regex).captures
     # hours = matches[0].to_i

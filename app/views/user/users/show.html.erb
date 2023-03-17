@@ -46,31 +46,165 @@
     </div>
 
     <div class="col-md-3">
+      <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+				<label class="btn btn-secondary btn-md active">
+					<input type="radio" name="options" id="option1" autocomplete="off" checked> 通常
+				</label>
+				<label class="btn btn-secondary btn-md">
+					<input type="radio" name="options" id="continuous_playback" autocomplete="off"> 連続再生
+				</label>
+				<label class="btn btn-secondary btn-md">
+					<input type="radio" name="options" id="shuffle_playback" autocomplete="off"> シャッフル
+				</label>
+			</div>
 
-      <ul id="accordion_menu">
-        <% if @user == current_user %>
-          <li><%= link_to 'クリップ', user_path(id: @user.id, template: 'clips_list'), class: 'accordion_title', remote: true %></li>
-          <li><a class="accordion_title" data-toggle="collapse" href="#menu01" aria-controls="#menu01" aria-expanded="false">プレイリスト</a></li>
-          <ul id="menu01" class="collapse" data-parent="#accordion_menu">
-            <li><a href="#">リンクサブメニュー1-1</a></li>
-            <li><a href="#">リンクサブメニュー1-2</a></li>
-            <li><a href="#">リンクサブメニュー1-3</a></li>
-          </ul>
-          <li><%= link_to 'ユーザー情報', user_path(id: @user.id, template: 'user'), remote: true, class: 'accordion_title' %></li>
-        <% end %>
-          <li>
-            <a class="accordion_title" data-toggle="collapse" href="#menu02" aria-controls="#menu02" aria-expanded="false">リンクメニュー２</a>
-          </li>
-          <ul id="menu02" class="collapse" data-parent="#accordion_menu">
-            <li><a href="#">リンクサブメニュー2-1</a></li>
-            <li><a href="#">リンクサブメニュー2-2</a></li>
-            <li><a href="#">リンクサブメニュー2-3</a></li>
-          </ul>
-          <div class="accordion_title">
+      <div class="side_player mb-3">
+        <div class="movie_center" style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">
+  				<div id="movie-play" style="position: absolute; top: 0; left: 0;"></div>
+  			</div>
+      </div>
 
-          </div>
-      </ul>
+      <div class="side_list">
+        <ul id="accordion_menu">
+          <% if @user == current_user %>
+            <li><%= link_to 'クリップ', user_path(id: @user.id, template: 'clips_list'), class: 'accordion_title', remote: true %></li>
+            <li><a class="accordion_title" data-toggle="collapse" href="#menu01" aria-controls="#menu01" aria-expanded="false">プレイリスト</a></li>
+            <ul id="menu01" class="collapse" data-parent="#accordion_menu">
+              <li><a href="#">リンクサブメニュー1-1</a></li>
+              <li><a href="#">リンクサブメニュー1-2</a></li>
+              <li><a href="#">リンクサブメニュー1-3</a></li>
+            </ul>
+            <li><%= link_to 'ユーザー情報', user_path(id: @user.id, template: 'user'), remote: true, class: 'accordion_title' %></li>
+          <% end %>
+            <li>
+              <a class="accordion_title" data-toggle="collapse" href="#menu02" aria-controls="#menu02" aria-expanded="false">リンクメニュー２</a>
+            </li>
+            <ul id="menu02" class="collapse" data-parent="#accordion_menu">
+              <li><a href="#">リンクサブメニュー2-1</a></li>
+              <li><a href="#">リンクサブメニュー2-2</a></li>
+              <li><a href="#">リンクサブメニュー2-3</a></li>
+            </ul>
+            <div class="accordion_title">
+
+            </div>
+        </ul>
+      </div>
 
     </div>
   </div>
 </div>
+
+
+
+<script>
+//IFrame Player APIを呼び出す
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+//プレーヤーの準備
+	var ytNum = 0;
+	let thumbInsert = '';
+	let ytPlayer;
+	let ytData = [
+	  //{ youtubeのID, 開始時間(秒), 終了時間(秒) },
+	  <% @clips.each do |clip| %>
+	    { id: '<%= clip.video_id %>', start: '<%= clip.start_time %>', end: '<%= clip.end_time %>' },
+	  <% end %>
+	];
+
+// 動画プレーヤーの読み込み
+// 	window.onYouTubeIframeAPIReady = function() {
+	function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player('movie-play', {
+      width: '100%',
+      height: '100%',
+      videoId: ytData[0]['id'],
+			playerVars:{
+				rel: 0, //関連動画なし
+				modestbranding: 1, //YouTube ロゴなし
+				start: ytData[0]['start'],
+				end: ytData[0]['end'],
+			},
+			events: { /* イベント */
+        'onReady': onPlayerReady,   /* プレーヤの準備完了時 */
+        'onStateChange': onPlayerStateChange   /* 動画プレーヤーのステータス変更 */
+      }
+    });
+    spotArea(ytNum);
+  }
+	//動画の再生
+	function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+	function play(ytNum) {
+		ytPlayer.loadVideoById({
+			'videoId': ytData[ytNum]['id'],
+      'startSeconds': ytData[ytNum]['start'],
+      'endSeconds': ytData[ytNum]['end'],
+      'suggestedQuality': 'medium',
+			'rel': 0, //関連動画なし
+			'modestbranding': 1,
+		});
+		spotArea(ytNum);
+	}
+
+//リストクリック
+	$(function() {
+	  /* 指定した動画を再生 */
+		$('#movie-menu .playlist_clip').on('click', function() {
+			ytNum = $('#movie-menu .playlist_clip').index(this)
+				console.log(ytNum);
+				console.log(ytData[ytNum]['id']);
+		// 	spotArea(ytNum);
+			play(ytNum);
+			return false;
+		});
+	});
+
+// 連続再生
+	function onPlayerStateChange(event) {
+		if ($('#continuous_playback').parent().hasClass('active')) {
+				console.log(event);
+			playback(event);
+			if (event.data == YT.PlayerState.ENDED) { //ENDED == 0
+				if (playlog == 11) {
+					playlog = 22;
+					ytNum = parseInt(ytNum) + 1;
+						console.log(playlog);
+						console.log(ytNum);
+				// 	spotArea(ytNum)
+					play(ytNum);
+				}
+			}
+		} else if ($('#shuffle_playback').parent().hasClass('active')) {
+			console.log(event);
+			playback(event);
+			if (event.data == YT.PlayerState.ENDED) {
+				if (playlog == 11) {
+					ytNum = Math.floor( Math.random() * ytData.length );
+					playlog = 22;
+						console.log(playlog);
+						console.log(ytNum);
+				// 	spotArea(ytNum)
+					play(ytNum);
+				}
+			}
+		}
+	}
+
+	function playback(event) {
+		if (event.data == 1) {
+			playlog = 11;
+			console.log(playlog);
+		}
+	}
+
+  function spotArea(ytNum) {
+    console.log(ytNum);
+    ytNum = parseInt(ytNum);
+    $('.playlist_clip').removeClass('bg-secondary');
+    $('.playlist_clip').eq(ytNum).addClass('bg-secondary');
+  }
+</script>

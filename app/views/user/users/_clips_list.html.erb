@@ -1,34 +1,42 @@
-<ul class="clip_lists list-group list-group-flush">
-  <% clips.each do |clip| %>
-    <li class="clip_list list-group-item d-flex flex-wrap">
-      <div class="clip_left mr-3" style="width:100px;">
-        <div class="clip_img mb-1" style="position: relative; width: 100%; padding-top: 56.25%;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></img></div>
-        <div class="clip_time"><p class="mb-1" style="font-size:9px;">クリップの時間:
-            <% if clip.end_time %>
-              <%= (clip.end_time.to_i - clip.start_time.to_i) %>
-            <% end %>
-          </p>
-        </div>
-      </div>
-      <div class="list_item">
-        <h6 class="list_title"><%= clip.title %></h6>
-        <div class="clip_data">
-          <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= clip.channel.yt_channel_id %>" class=""><%= clip.channel.name %></a></p></div>
-          <div class="video_date d-flex flex-wrap" style="font-size:11px;">
-            <p class="mb-0 mr-3">クリップ作成日:<%= clip.created_at.strftime('%Y/%m/%d') %></p>
-            <p class="mb-0 mr-3">投稿日: <%= clip.published_at.strftime('%Y/%m/%d') %></p>
-            <p class="mb-0" id="favorite_btn_<%= clip.id %>" style="font-size:12px;"><%= render 'user/favorites/favorite_btn', clip: clip %></p>
-          </div>
-          <div class="tag_list">
-            <ul class="list-group list-group-horizontal list-unstyled" style="font-size:14px;">
-              <p class="mb-0">タグ:</p><li class="clip_tag ml-1 mr-2 mb-0">test</li>
-            </ul>
+<div id="movie-menu">
+  <ul class="clip_lists list-group list-group-flush">
+    <% clips.each do |clip| %>
+      <li class="clip_list list-group-item d-flex flex-wrap">
+        <div class="clip_left mr-3" style="width:100px;">
+          <div class="clip_img mb-1" style="position: relative; width: 100%; padding-top: 56.25%;"><img src="https://img.youtube.com/vi/<%= clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></img></div>
+          <div class="clip_time"><p class="mb-1" style="font-size:9px;">クリップの時間:
+              <% if clip.end_time %>
+                <%= (clip.end_time.to_i - clip.start_time.to_i) %>
+              <% end %>
+            </p>
           </div>
         </div>
-      </div>
-      <% if @user == current_user %>
-        <div class="ml-auto"><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+        <div class="list_item">
+          <h6 class="list_title"><%= link_to clip_path(clip.id) do %><%= clip.title %><% end %></h6>
+          <div class="clip_data">
+            <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= clip.channel.yt_channel_id %>" class=""><%= clip.channel.name %></a></p></div>
+            <div class="video_date d-flex flex-wrap" style="font-size:11px;">
+              <p class="mb-0 mr-3">クリップ作成日:<%= clip.created_at.strftime('%Y/%m/%d') %></p>
+              <p class="mb-0 mr-3">投稿日: <%= clip.published_at.strftime('%Y/%m/%d') %></p>
+              <p class="mb-0" id="favorite_btn_<%= clip.id %>" style="font-size:12px;"><%= render 'user/favorites/favorite_btn', clip: clip %></p>
+            </div>
+            <div class="tag_list">
+              <ul class="list-group list-group-horizontal list-unstyled" style="font-size:14px;">
+                <p class="mb-0">タグ:</p><li class="clip_tag ml-1 mr-2 mb-0">test</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="ml-auto">
+          <div class="playlist_clip btn mb-2">
+            <i class="fas fa-play"></i>
+          </div>
+          <% if @user == current_user %>
+            <div class=""><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
