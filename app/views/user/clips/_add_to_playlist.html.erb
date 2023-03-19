@@ -19,19 +19,20 @@
       <%= playlists.each do |pl| %>
         <% if pl.playlist_by?(current_user) %>
           <%= link_to playlist_playlist_videos_path(pl), class: 'text-danger', method: :delete, remote: true do %>
-            ♥
+            ♥ <%= pl.name %>
           <% end %>
         <% else %>
           <%= link_to playlist_playlist_videos_path(pl), class: 'text-primary', method: :post, remote: true do %>
-            ♥
+            ♥ <%= pl.name %>
           <% end %>
         <% end %>
       <% end %>
     </div>
     <div class="modal-footer">
-      <%= form_with model: playlist_new, local: false, class: "" do |f| %>
-        <%= f.text_field :title, required: true, autocomplete: "新しいプレイリスト" %>
-      <%= f.submit "作成" %>
+      <%#= form_with model: playlist_new, local: false, class: "" do |f| %>
+      <%= form_with url: 'playlists_path', class: "" do |f| %>
+        <%= f.text_field :name, required: true, autocomplete: "新しいプレイリスト" %>
+        <%= f.submit "作成" %>
       <% end %>
     </div>
   </div>
