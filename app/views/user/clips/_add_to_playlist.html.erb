@@ -1,0 +1,38 @@
+<div class="modal-dialog">
+  <!--<div class="modal-content">-->
+  <!--  <div class="modal-header">-->
+  <!--    <h4 class="modal-title" id="myModalLabel">削除確認画面</h4>-->
+  <!--  </div>-->
+  <!--  <div class="modal-body">-->
+  <!--    <label>データを削除しますか？</label>-->
+  <!--  </div>-->
+  <!--  <div class="modal-footer">-->
+  <!--    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>-->
+  <!--    <button type="button" class="btn btn-danger">削除</button>-->
+  <!--  </div>-->
+  <!--</div>-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>登録プレイリスト</h5>
+    </div>
+    <div class="modal-body">
+      <%= playlists.each do |pl| %>
+        <% if pl.playlist_by?(current_user) %>
+          <%= link_to playlist_playlist_videos_path(pl), class: 'text-danger', method: :delete, remote: true do %>
+            ♥
+          <% end %>
+        <% else %>
+          <%= link_to playlist_playlist_videos_path(pl), class: 'text-primary', method: :post, remote: true do %>
+            ♥
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="modal-footer">
+      <%= form_with model: playlist_new, local: false, class: "" do |f| %>
+        <%= f.text_field :title, required: true, autocomplete: "新しいプレイリスト" %>
+      <%= f.submit "作成" %>
+      <% end %>
+    </div>
+  </div>
+</div>

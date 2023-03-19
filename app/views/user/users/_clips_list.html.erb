@@ -27,18 +27,33 @@
             </div>
           </div>
         </div>
-        <div class="ml-auto">
-          <div class="playlist_clip btn mb-2">
+        <div class="ml-auto d-flex flex-column">
+          <div class="playlist_clip btn py-0">
             <i class="fas fa-play"></i>
           </div>
+          <div class="add_to_playlist btn py-0 my-auto">
+          	<div type="button" class="" data-toggle="modal" data-target="#testModal">
+          		<i class="fas fa-indent"></i>
+          	</div>
+          </div>
           <% if @user == current_user %>
-            <div class=""><%= link_to '削除', clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %></div>
+            <div class="mx-auto">
+            	<%= link_to clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm py-0" do %>
+            		<i class="fas fa-trash-alt"></i>
+            	<% end %>
+            </div>
           <% end %>
         </div>
       </li>
     <% end %>
   </ul>
 </div>
+
+<!-- モーダル -->
+<div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <%= render "user/clips/add_to_playlist", clips: clips, playlists: playlists, playlist_new: playlist_new %>
+</div>
+
 
 
 <script>
