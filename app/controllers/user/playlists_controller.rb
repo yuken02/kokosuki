@@ -4,9 +4,9 @@ class User::PlaylistsController < ApplicationController
     @playlist_new = Playlist.new(playlist_params)
     @playlist_new.user_id = current_user.id
     if @playlist_new.save
-      redirect_to request.referer, alert: "新しいプレイリストを作成しました。"
+      redirect_to request.referer, notice: "新しいプレイリストを作成しました。"
     else
-      render 'user/clips/add_to_playlist'
+      render 'user/users/add_to_playlist', alert: 'プレイリストの作成に失敗しました。'
     end
   end
 
@@ -15,14 +15,14 @@ class User::PlaylistsController < ApplicationController
   end
 
   def destroy
-    playlist = Playlist.new(params[:id])
-    playlist.destroys
+    playlist = Playlist.find(params[:id])
+    playlist.destroy
+    redirect_to request.referer, notice: "プレイリストを削除しました。"
   end
 
 
   private
-
   def playlist_params
-    params.require(:playlists).permit(:name)
+    params.require(:playlist).permit(:name)
   end
 end

@@ -21,6 +21,7 @@ class User::ClipsController < ApplicationController
   def show
     @clip = Clip.includes(:user, :channel, :favorites, :tagging, :playlist_video).find(params[:id])
     @playlist_new = Playlist.new
+    @playlists = Playlist.includes(:user, :playlist_video, :clip).find(current_user.id)
   end
 
   def new

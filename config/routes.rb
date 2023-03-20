@@ -11,11 +11,14 @@ Rails.application.routes.draw do
     resources :clips, only: [:index,:show,:new,:create,:edit,:update,:destroy] do
       resource :favorites, only: [:create, :destroy]
     end
-    resources :users, only: [:show, :edit, :update]
-    resources :playlists, only: [:show, :new, :create, :edit, :update, :destroy] do
-      resource :playlist_videos, only: [:create, :destroy]
+    resources :users, only: [:show, :edit, :update] do
+      resources :playlists, only: [:show, :new, :create, :edit, :update, :destroy] do
+        resource :playlist_videos, only: [:create, :destroy]
+      end
     end
   end
+
+
 
   # URL /customers/sign_in ...
   # devise_for :customers,skip: [:passwords], controllers: {

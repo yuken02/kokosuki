@@ -9,7 +9,7 @@ class Clip < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
 
-  def playlist_by?(user)
-    playlist_video.exists?(user_id: user.id)
-  end
+  # def playlist_by?(user)
+  #   playlist_video.exists?(user_id: user.id)
+  # end
 end

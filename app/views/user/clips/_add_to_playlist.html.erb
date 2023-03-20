@@ -17,21 +17,21 @@
     </div>
     <div class="modal-body">
       <%= playlists.each do |pl| %>
-        <% if pl.playlist_by?(current_user) %>
-          <%= link_to playlist_playlist_videos_path(pl), class: 'text-danger', method: :delete, remote: true do %>
+        <% if pl.playlist_by?(pl) %>
+          <%#= link_to user_playlist_playlist_videos_path(pl), class: 'text-danger', method: :delete, remote: true do %>
             ♥ <%= pl.name %>
-          <% end %>
+          <%# end %>
         <% else %>
-          <%= link_to playlist_playlist_videos_path(pl), class: 'text-primary', method: :post, remote: true do %>
+          <%#= link_to user_playlist_playlist_videos_path(pl), class: 'text-primary', method: :post, remote: true do %>
             ♥ <%= pl.name %>
-          <% end %>
+          <%# end %>
         <% end %>
       <% end %>
     </div>
     <div class="modal-footer">
       <%#= form_with model: playlist_new, local: false, class: "" do |f| %>
-      <%= form_with url: 'playlists_path', class: "" do |f| %>
-        <%= f.text_field :name, required: true, autocomplete: "新しいプレイリスト" %>
+      <%= form_with(model: @playlist_new, url: user_playlists_path(user_id: current_user.id), class: "") do |f| %>
+        <%= f.text_field :name, name: "playlist[name]", required: true, autocomplete: "新しいプレイリスト" %>
         <%= f.submit "作成" %>
       <% end %>
     </div>

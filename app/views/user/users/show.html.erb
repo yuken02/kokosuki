@@ -72,6 +72,9 @@
             <li><%= link_to 'クリップ', user_path(id: @user.id, template: 'clips_list'), class: 'accordion_title', remote: true %></li>
             <li><a class="accordion_title" data-toggle="collapse" href="#menu01" aria-controls="#menu01" aria-expanded="false">プレイリスト</a></li>
             <ul id="menu01" class="collapse" data-parent="#accordion_menu">
+              <% @playlists.each do |pl| %>
+                <%= pl.name %>
+              <% end %>
               <li><a href="#">リンクサブメニュー1-1</a></li>
               <li><a href="#">リンクサブメニュー1-2</a></li>
               <li><a href="#">リンクサブメニュー1-3</a></li>
