@@ -22,7 +22,7 @@
             ♥ <%= pl.name %>
           <% end %>
         <% else %>
-          <%= link_to user_playlist_playlist_videos_path(pl.id), class: 'text-primary', method: :post, remote: true do %>
+          <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip), class: 'text-primary', method: :post, remote: true do %>
             ♥ <%= pl.name %>
           <% end %>
         <% end %>
