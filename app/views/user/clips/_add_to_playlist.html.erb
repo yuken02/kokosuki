@@ -18,11 +18,11 @@
     <div class="modal-body">
       <%= playlists.each do |pl| %>
         <% if pl.playlist_by?(pl) %>
-          <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip), class: 'text-danger', method: :delete, remote: true do %>
+          <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-danger', method: :delete, remote: true do %>
             ♥ <%= pl.name %>
           <% end %>
         <% else %>
-          <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip), class: 'text-primary', method: :post, remote: true do %>
+          <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-primary', method: :post, remote: true do %>
             ♥ <%= pl.name %>
           <% end %>
         <% end %>
