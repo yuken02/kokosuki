@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     end
     resources :users, only: [:show, :edit, :update] do
       resources :playlists, only: [:show, :new, :create, :edit, :update, :destroy] do
-        resource :playlist_videos, only: [:create, :destroy]
+        resource :playlist_videos, only: [:create, :destroy], param: :clip_id
       end
     end
   end

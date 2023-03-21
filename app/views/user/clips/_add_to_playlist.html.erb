@@ -17,15 +17,33 @@
     </div>
     <div class="modal-body">
       <%= playlists.each do |pl| %>
+        <%# if pl.playlist_by?(pl) %>
+          <%#= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: selectedClipId), class: 'text-danger', method: :delete, remote: true do %>
+          <%#= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-danger', method: :delete, remote: true do %>
+            <!-- ♥ --> <%#= pl.name %>
+          <%# end %>
+        <%# else %>
+          <%#= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: selectedClipId), class: 'text-primary', method: :post, remote: true do %>
+          <%#= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-primary', method: :post, remote: true do %>
+            <!-- ♥ --> <%#= pl.name %>
+          <%# end %>
+        <%# end %>
+
+        <%# if pl.clips.include?(clip) %>
         <% if pl.playlist_by?(pl) %>
           <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-danger', method: :delete, remote: true do %>
-            ♥ <%= pl.name %>
+            <i class="fas fa-heart"></i> <%= pl.name %>
           <% end %>
         <% else %>
-          <%= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-primary', method: :post, remote: true do %>
-            ♥ <%= pl.name %>
-          <% end %>
+          <%#= form_tag(user_playlist_playlist_videos_path(playlist_id: pl.id), remote: true) do %>
+            <%#= hidden_field_tag :clip_id, nil, id: 'selected_clip_id' %>
+            <%#= button_tag type: 'submit', class: 'btn btn-link text-primary' do %>
+            <%= form_tag(user_playlist_playlist_video_path(user_id: current_user.id, playlist_id: pl.id, clip_id: selectedClipId), method: :delete, remote: true) do %>
+              <i class="fas fa-heart"></i> <%= pl.name %>
+            <% end %>
+          <%# end %>
         <% end %>
+
       <% end %>
     </div>
     <div class="modal-footer">
@@ -37,3 +55,14 @@
     </div>
   </div>
 </div>
+
+<script>
+  var selectedClipId = null;
+  $(document).ready(function() {
+    $('.clip-select a').on('click', function(e) {
+      e.preventDefault();
+      var clipId = $(this).data('clip-id');
+      $('#selected_clip_id').val(clipId);
+    });
+  });
+</script>

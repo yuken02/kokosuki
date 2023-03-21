@@ -214,4 +214,16 @@
     $('.playlist_clip').removeClass('bg-secondary');
     $('.playlist_clip').eq(ytNum).addClass('bg-secondary');
   }
+
+  // clipID送信用
+  
+  document.addEventListener("DOMContentLoaded", function() {
+  // モーダルを表示したときに clip_id を hidden_field に設定する
+  $('#testModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var clip_id = button.data('clip-id');
+    var modal = $(this);
+    modal.find('#clip_id').val(clip_id);
+  });
+});
 </script>
