@@ -1,7 +1,10 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-md-9">
-      <%= @playlist.user.name %>
+      <%= @playlist.user.name %></br>
+      <%= @playlist.name %></br>
+      <%#= @playlist.playlist_video.clip.title %>
+      <%#= @playlist.playlist_video.clip.title %>
       <% @playlist.playlist_video.each do |pv| %>
         <%= pv.clip.title %>
       <% end %>

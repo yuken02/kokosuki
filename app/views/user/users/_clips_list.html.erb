@@ -33,7 +33,7 @@
           </div>
           <div class="add_to_playlist btn py-0 my-auto">
           <!--<div class="py-0 my-auto">-->
-          	<div type="button" class="" data-toggle="modal" data-target="#testModal" onclick="setSelectedClip(<%= clip.id %>);" data-clip-id="<%= clip.id %>" data: { clip_id: <%= clip.id %> }>
+          	<div type="button" class="clip_data" data-toggle="modal" data-target="#testModal" data-clip_id="<%= clip.id %>" data: { clip_id: <%= clip.id %> }>
           		<i class="fas fa-indent"></i>
           	</div>
 				    <%#= link_to "#", data: { clip_id: clip.id }, data-toggle: "model", data-target: "#testModal", class: 'add_to_playlist btn text-muted' do %>
@@ -178,20 +178,45 @@
   }
 
 // clipID送信用
-  var selectedClipId = null;
+  // $('.add_to_playlist div').click(function(event) {
+  //   console.log('クリックされました');
 
-  $('.add_to_playlist').click(function() {
+  //   // 以下のように $(this) を使用して、クリックされた要素自体を取得できます
+  //   var clickedElement = $(this);
+  //   console.log(clickedElement);
+
+  //   event.preventDefault();
+  // });
+
+  // $('.add_to_playlist').click(function(event) {
+  //   var clipId = $(this).data('clip_id');
+  //   console.log(clipId); // clipId の値をコンソールに表示する
+
+  //   // もし値が存在しない場合には、以下のようにアラートを表示することもできます
+  //   if (!clipId) {
+  //     alert('data-clip_id 属性が存在しません');
+  //   }
+
+  //   event.preventDefault();
+  // });
+
+  // var selectedClipId = null;
+
+  // var clipID = 0
+  $('.add_to_playlist .clip_data').click(function() {
     var clipId = $(this).data('clip_id');
+    console.log(clipId)
+    $('#hidden_field_id').val(clipId);
     // var clipId = $(this).data('clip-id');
   });
 
-  $(document).ready(function() {
-    $('.clip-select a').on('click', function(e) {
-      e.preventDefault();
-      var clipId = $(this).data('clip-id');
-      $('#selected_clip_id').val(clipId);
-    });
-  });
+  // $(document).ready(function() {
+  //   $('.clip-select a').on('click', function(e) {
+  //     e.preventDefault();
+  //     var clipId = $(this).data('clip-id');
+  //     $('#selected_clip_id').val(clipId);
+  //   });
+  // });
 
 //   //初回読み込み、リロード、ページ切り替えで動く。
 // $(document).on('turbolinks:load', function() { });

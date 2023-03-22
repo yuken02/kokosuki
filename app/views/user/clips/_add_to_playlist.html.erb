@@ -13,7 +13,7 @@
   <!--</div>-->
   <div class="modal-content">
     <div class="modal-header">
-      <h5>登録プレイリスト</h5>
+      <h5>登録プレイリスト clipId</h5>
     </div>
     <div class="modal-body">
       <%#= playlists.each do |pl| %>
@@ -52,13 +52,13 @@
       <%# end %>
       <%#= form_with model: @add_to_playlist, class: "" do |f| %>
       <%= form_with model: @add_to_playlist, url: playlist_playlist_videos_path(playlists), class: "" do |f| %>
-        <%= f.hidden_field :clip_id, id: 'selected_clip_id' %>
+        <%= f.hidden_field :clip_id, id: 'hidden_field_id' %>
         <%#= f.hidden_field :clip_id, :value => clipId %>
         <% playlists.each_with_index do |pl,i| %>
           <div>
             <%#= check_box_tag "playlist[#{i}]", pl.id %>
             <%#= label_tag "playlist[#{i}]", pl.name %>
-            <%= check_box_tag "playlist_id", pl.id %>
+            <%= check_box_tag "playlist_id_#{pl.id}", pl.id %>
             <%= label_tag "playlist_id_#{pl.id}", pl.name %>
           </div>
         <% end %>
@@ -67,23 +67,23 @@
     </div>
     <div class="modal-footer">
       <%#= form_with model: playlist_new, local: false, class: "" do |f| %>
-      <%= form_with(model: @playlist_new, url: playlists_path(user_id: current_user.id), class: "") do |f| %>
-        <%= f.text_field :name, name: "playlist[name]", required: true, autocomplete: "新しいプレイリスト" %>
-        <%= f.submit "作成" %>
+      <%= form_with(model: @playlist_new, url: playlists_path(user_id: current_user.id), class: "") do |pn| %>
+        <%= pn.text_field :name, name: "playlist[name]", required: true, autocomplete: "新しいプレイリスト" %>
+        <%= pn.submit "作成" %>
       <% end %>
     </div>
   </div>
 </div>
 
 <script>
-  var selectedClipId = null;
-  $(document).ready(function() {
-    $('.clip-select a').on('click', function(e) {
-      e.preventDefault();
-      var clipId = $(this).data('clip-id');
-      $('#selected_clip_id').val(clipId);
-    });
-  });
+  // var selectedClipId = null;
+  // $(document).ready(function() {
+  //   $('.clip-select a').on('click', function(e) {
+  //     e.preventDefault();
+  //     var clipId = $(this).data('clip-id');
+  //     $('#selected_clip_id').val(clipId);
+  //   });
+  // });
 
-  var clipId = 1;
+  // var clipId = 1;
 </script>
