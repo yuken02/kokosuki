@@ -32,13 +32,17 @@
             <i class="fas fa-play"></i>
           </div>
           <div class="add_to_playlist btn py-0 my-auto">
-          	<div type="button" class="" data-toggle="modal" data-target="#testModal" onclick="setSelectedClip(<%= clip.id %>);" data-clip-id="<%= clip.id %>">
+          <!--<div class="py-0 my-auto">-->
+          	<div type="button" class="" data-toggle="modal" data-target="#testModal" onclick="setSelectedClip(<%= clip.id %>);" data-clip-id="<%= clip.id %>" data: { clip_id: <%= clip.id %> }>
           		<i class="fas fa-indent"></i>
           	</div>
+				    <%#= link_to "#", data: { clip_id: clip.id }, data-toggle: "model", data-target: "#testModal", class: 'add_to_playlist btn text-muted' do %>
+				      <!--<i class="fas fa-indent"></i>-->
+				    <%# end %>
           </div>
       <div class="clip-select">
 		    <%= link_to "#", data: { clip_id: clip.id }, class: 'text-muted' do %>
-		      <i class="far fa-circle"></i>
+		      <i class="far fa-circle"></i>2
 		    <% end %>
 		  </div>
           <% if @user == current_user %>
@@ -176,8 +180,9 @@
 // clipID送信用
   var selectedClipId = null;
 
-  $('.clip-list-item').click(function() {
-    selectedClipId = $(this).data('clip-id');
+  $('.add_to_playlist').click(function() {
+    var clipId = $(this).data('clip_id');
+    // var clipId = $(this).data('clip-id');
   });
 
   $(document).ready(function() {

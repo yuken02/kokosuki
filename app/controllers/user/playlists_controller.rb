@@ -1,5 +1,9 @@
 class User::PlaylistsController < ApplicationController
 
+  def show
+    @playlist = Playlist.includes(:user, playlist_video: [:clip]).find(params[:id])
+  end
+
   def create
     @playlist_new = Playlist.new(playlist_params)
     @playlist_new.user_id = current_user.id
