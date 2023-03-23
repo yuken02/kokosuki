@@ -13,7 +13,7 @@
   <!--</div>-->
   <div class="modal-content">
     <div class="modal-header">
-      <h5>登録プレイリスト clipId</h5>
+      <h5>登録プレイリスト clipId<span id="checkID"></span></h5>
     </div>
     <div class="modal-body">
       <%#= playlists.each do |pl| %>
@@ -51,13 +51,14 @@
           <%# end %>
       <%# end %>
       <%#= form_with model: @add_to_playlist, class: "" do |f| %>
-      <%= form_with model: @add_to_playlist, url: playlist_playlist_videos_path(playlists), class: "" do |f| %>
+      <%#= form_with model: @add_to_playlist, url: 'user/playlists/:playlist_id/playlist_videos', class: "" do |f| %>
+      <%#= form_with model: @add_to_playlist, url: playlist_playlist_videos_path(playlists), class: "" do |f| %>
+      <%= form_with(url: playlist_playlist_videos_path(playlists), method: :post) do |f| %>
         <%= f.hidden_field :clip_id, id: 'hidden_field_id' %>
         <%#= f.hidden_field :clip_id, :value => clipId %>
-        <% playlists.each_with_index do |pl,i| %>
+        <% playlists.each do |pl| %>
           <div>
-            <%#= check_box_tag "playlist[#{i}]", pl.id %>
-            <%#= label_tag "playlist[#{i}]", pl.name %>
+            <%= hidden_field_tag 'playlist_ids[]', pl.id %>
             <%= check_box_tag "playlist_id_#{pl.id}", pl.id %>
             <%= label_tag "playlist_id_#{pl.id}", pl.name %>
           </div>

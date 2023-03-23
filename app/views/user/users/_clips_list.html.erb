@@ -207,6 +207,9 @@
     var clipId = $(this).data('clip_id');
     console.log(clipId)
     $('#hidden_field_id').val(clipId);
+    $('#checkID').children().remove();
+    // $('#checkID').append(clipId);
+    $('#checkID').append($('<span>').append(clipId));
     // var clipId = $(this).data('clip-id');
   });
 
