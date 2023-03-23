@@ -2,14 +2,11 @@
   <div class="row my-5">
     <div class="col-md-9">
       <%= @playlist.user.name %></br>
-      <%= @playlist.name %></br>
+      <%= @playlist.name %></br></br>
       <%#= @playlist.playlist_video.clip.title %>
       <%#= @playlist.playlist_video.clip.title %>
       <% @playlist.playlist_video.each do |pv| %>
-        <%= pv.clip.title %>
-      <% end %>
-      <% @playlist.playlist_video.each do |pv| %>
-        <p><%= pv.id %></p>
+        <%= pv.clip.title %> <%= pv.id %></br>
       <% end %>
     </div>
   </div>
