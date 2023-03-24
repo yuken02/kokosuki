@@ -1,0 +1,9 @@
+<div>
+  <%= @playlist.user.name %></br>
+  <%= @playlist.name %></br></br>
+  <%#= @playlist.playlist_video.clip.title %>
+  <%#= @playlist.playlist_video.clip.title %>
+  <% @playlist.playlist_video.each do |pv| %>
+    <%= pv.clip.title %> <%= pv.id %></br>
+  <% end %>
+</div>

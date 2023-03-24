@@ -1,30 +1,31 @@
 class User::UsersController < ApplicationController
 
   def show
-    @user = User.find(params[:id])
-    @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
-    @playlists = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
+    # @user = User.find(params[:id])
+    # @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
+    # @playlists = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
+    @playlist = Playlist.includes(:user, playlist_video: [:clip]).find(params[:id])
 
-        # case params[:template]
-        #   when 'clips_list'
-        #     @template = 'clips_list'
-        #   when 'user'
-        #     @template = 'user'
-        #   when 'playlist'
-        #     @template = 'playlist'
-        #   else
-        #     @template = 'clips_list'
-        # end
-        case params[:template]
-          when 'clips_list'
-          @template = 'user/users/clips_list'
-          when 'user'
-          @template = 'user/users/user'
-          when 'playlist'
-          @template = 'user/users/playlist'
-          else
-          @template = 'user/users/clips_list'
-        end
+
+    case params[:template]
+      when 'clips_list'
+      @template = 'user/users/clips_list'
+      @user = User.find(params[:id])
+      @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
+      @playlists = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
+      when 'user'
+      @template = 'user/users/user'
+      @user = User.find(params[:id])
+      @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
+      @playlists = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
+      when 'playlist'
+      @template = 'user/playlists/playlist'
+      else
+      @template = 'user/users/clips_list'
+      @user = User.find(params[:id])
+      @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
+      @playlists = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
+    end
     respond_to do |format|
       format.html
       format.js { render 'switch.js.erb' }

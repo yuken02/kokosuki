@@ -69,30 +69,35 @@
       <div class="side_list">
         <ul id="accordion_menu">
           <% if @user == current_user %>
-            <li><%= link_to 'クリップ', user_path(id: @user.id, template: 'clips_list'), class: 'accordion_title', remote: true %></li>
+            <li><%= link_to 'クリップ', user_path(id: @user.id, template: 'clips_list'), remote: true, class: 'accordion_title' %></li>
             <li><a class="accordion_title" data-toggle="collapse" href="#menu01" aria-controls="#menu01" aria-expanded="false">プレイリスト</a></li>
-            <ul id="menu01" class="collapse" data-parent="#accordion_menu">
-              <% @playlists.each do |pl| %>
-                <li>
-                  <%= link_to playlist_path(pl.id), class: '' do %>
-                    <%= pl.name %>
-                  <% end %>
-                </li>
-              <% end %>
-              <li><a href="#">リンクサブメニュー1-1</a></li>
-              <li><a href="#">リンクサブメニュー1-2</a></li>
-              <li><a href="#">リンクサブメニュー1-3</a></li>
-            </ul>
+              <ul id="menu01" class="collapse" data-parent="#accordion_menu">
+                <% @playlists.each do |pl| %>
+                  <li>
+                    <%= link_to playlist_path(pl.id), class: '' do %>
+                      <%= pl.name %>
+                    <% end %> (ページ移動)
+                  </li>
+                  <li>
+                    <%= link_to user_path(pl.id, template: 'playlist'), remote: true, class: '' do %>
+                      <%= pl.name %>
+                    <% end %>
+                  </li>
+                <% end %>
+                <li><a href="#">リンクサブメニュー1-1</a></li>
+                <li><a href="#">リンクサブメニュー1-2</a></li>
+                <li><a href="#">リンクサブメニュー1-3</a></li>
+              </ul>
             <li><%= link_to 'ユーザー情報', user_path(id: @user.id, template: 'user'), remote: true, class: 'accordion_title' %></li>
           <% end %>
             <li>
               <a class="accordion_title" data-toggle="collapse" href="#menu02" aria-controls="#menu02" aria-expanded="false">リンクメニュー２</a>
             </li>
-            <ul id="menu02" class="collapse" data-parent="#accordion_menu">
-              <li><a href="#">リンクサブメニュー2-1</a></li>
-              <li><a href="#">リンクサブメニュー2-2</a></li>
-              <li><a href="#">リンクサブメニュー2-3</a></li>
-            </ul>
+              <ul id="menu02" class="collapse" data-parent="#accordion_menu">
+                <li><a href="#">リンクサブメニュー2-1</a></li>
+                <li><a href="#">リンクサブメニュー2-2</a></li>
+                <li><a href="#">リンクサブメニュー2-3</a></li>
+              </ul>
             <div class="accordion_title">
 
             </div>
@@ -216,16 +221,4 @@
     $('.playlist_clip').removeClass('bg-secondary');
     $('.playlist_clip').eq(ytNum).addClass('bg-secondary');
   }
-
-  // clipID送信用
-
-  // document.addEventListener("DOMContentLoaded", function() {
-  // // モーダルを表示したときに clip_id を hidden_field に設定する
-  // $('#testModal').on('show.bs.modal', function(event) {
-  //   var button = $(event.relatedTarget);
-  //   var clip_id = button.data('clip-id');
-  //   var modal = $(this);
-  //   modal.find('#clip_id').val(clip_id);
-  // });
-});
 </script>

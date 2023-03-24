@@ -1,16 +1,4 @@
 <div class="modal-dialog">
-  <!--<div class="modal-content">-->
-  <!--  <div class="modal-header">-->
-  <!--    <h4 class="modal-title" id="myModalLabel">削除確認画面</h4>-->
-  <!--  </div>-->
-  <!--  <div class="modal-body">-->
-  <!--    <label>データを削除しますか？</label>-->
-  <!--  </div>-->
-  <!--  <div class="modal-footer">-->
-  <!--    <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>-->
-  <!--    <button type="button" class="btn btn-danger">削除</button>-->
-  <!--  </div>-->
-  <!--</div>-->
   <div class="modal-content">
     <div class="modal-header">
       <h5>登録プレイリスト clipId<span id="checkID"></span></h5>
@@ -35,27 +23,8 @@
           <%# end %>
         <%# end %>
 
-          <%# if pl.clips.include?(clip) %>
-          <%# if pl.playlist_by?(pl) %>
-            <%#= link_to user_playlist_playlist_videos_path(playlist_id: pl.id, clip_id: clip.id), class: 'text-danger', method: :delete, remote: true do %>
-              <!--<i class="fas fa-heart"></i> <%#= pl.name %>-->
-            <%# end %>
-          <%# else %>
-            <%#= form_with url: user_playlist_playlist_videos_path(playlist_id: pl.id), remote: true do |f| %>
-              <%#= f.hidden_field :clip_id, nil, id: 'selected_clip_id' %>
-              <%#= f.button_tag type: 'submit', class: 'btn btn-link text-primary' do %>
-              <%#= form_tag(user_playlist_playlist_video_path(user_id: current_user.id, playlist_id: pl.id, clip_id: selectedClipId), method: :delete, remote: true) do %>
-                <!--<i class="fas fa-heart"></i> <%#= pl.name %>-->
-              <%# end %>
-            <%# end %>
-          <%# end %>
-      <%# end %>
-      <%#= form_with model: @add_to_playlist, class: "" do |f| %>
-      <%#= form_with model: @add_to_playlist, url: 'user/playlists/:playlist_id/playlist_videos', class: "" do |f| %>
-      <%#= form_with model: @add_to_playlist, url: playlist_playlist_videos_path(playlists), class: "" do |f| %>
       <%= form_with(url: playlist_playlist_videos_path(playlists), method: :post) do |f| %>
         <%= f.hidden_field :clip_id, id: 'hidden_field_id' %>
-        <%#= f.hidden_field :clip_id, :value => clipId %>
         <% playlists.each do |pl| %>
           <div>
             <%= hidden_field_tag 'playlist_ids[]', pl.id %>
@@ -75,16 +44,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  // var selectedClipId = null;
-  // $(document).ready(function() {
-  //   $('.clip-select a').on('click', function(e) {
-  //     e.preventDefault();
-  //     var clipId = $(this).data('clip-id');
-  //     $('#selected_clip_id').val(clipId);
-  //   });
-  // });
-
-  // var clipId = 1;
-</script>
