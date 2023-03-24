@@ -1,0 +1,59 @@
+<div class="player_switch">
+  <%= render 'user/clips/player_switch' %>
+<!--   <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">-->
+	<!--	<label class="btn btn-secondary btn-md active">-->
+	<!--		<input type="radio" name="options" id="option1" autocomplete="off" checked> 通常-->
+	<!--	</label>-->
+	<!--	<label class="btn btn-secondary btn-md">-->
+	<!--		<input type="radio" name="options" id="continuous_playback" autocomplete="off"> 連続再生-->
+	<!--	</label>-->
+	<!--	<label class="btn btn-secondary btn-md">-->
+	<!--		<input type="radio" name="options" id="shuffle_playback" autocomplete="off"> シャッフル-->
+	<!--	</label>-->
+	<!--</div>-->
+</div>
+
+<div class="side_player mb-3">
+  <%= render 'user/clips/player' %>
+<!--   <div class="movie_center" style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">-->
+	<!--	<div id="movie-play" style="position: absolute; top: 0; left: 0;"></div>-->
+	<!--</div>-->
+</div>
+
+<div class="side_list">
+  <ul id="accordion_menu">
+    <% if @user == current_user %>
+      <li><%= link_to 'クリップ', user_path(id: @user.id, template: 'clips_list'), data: { turbolinks: false }, remote: true, class: 'accordion_title' %></li>
+      <li><a class="accordion_title" data-toggle="collapse" href="#menu01" aria-controls="#menu01" aria-expanded="false">プレイリスト</a></li>
+        <ul id="menu01" class="collapse" data-parent="#accordion_menu">
+          <% @playlists.each do |pl| %>
+            <li>
+              <%= link_to playlist_path(pl.id), data: { turbolinks: false }, class: '' do %>
+                <%= pl.name %>
+              <% end %> (ページ移動)
+            </li>
+            <li>
+              <%= link_to user_path(pl.id, template: 'playlist'), data: { turbolinks: false }, remote: true, class: '' do %>
+                <%= pl.name %>
+              <% end %>
+            </li>
+          <% end %>
+          <li><a href="#">リンクサブメニュー1-1</a></li>
+          <li><a href="#">リンクサブメニュー1-2</a></li>
+          <li><a href="#">リンクサブメニュー1-3</a></li>
+        </ul>
+      <li><%= link_to 'ユーザー情報', user_path(id: @user.id, template: 'user'), remote: true, class: 'accordion_title' %></li>
+    <% end %>
+      <li>
+        <a class="accordion_title" data-toggle="collapse" href="#menu02" aria-controls="#menu02" aria-expanded="false">リンクメニュー２</a>
+      </li>
+        <ul id="menu02" class="collapse" data-parent="#accordion_menu">
+          <li><a href="#">リンクサブメニュー2-1</a></li>
+          <li><a href="#">リンクサブメニュー2-2</a></li>
+          <li><a href="#">リンクサブメニュー2-3</a></li>
+        </ul>
+      <div class="accordion_title">
+
+      </div>
+  </ul>
+</div>

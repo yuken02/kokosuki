@@ -8,14 +8,14 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
           <li>
-            <%= link_to clips_path, class: 'nav-link text-dark' do %>
+            <%= link_to clips_path, data: { turbolinks: false }, class: 'nav-link text-dark' do %>
               <i class="far fa-play-circle"></i> Clip
             <% end %>
           </li>
         <% if user_signed_in? %>
 
           <li class="log_out">
-            <%= link_to user_path(current_user.id), class: 'nav-link text-dark' do %>
+            <%= link_to user_path(current_user.id), data: { turbolinks: false }, class: 'nav-link text-dark' do %>
               <i class="fas fa-user"></i> マイページ
             <% end %>
           </li>

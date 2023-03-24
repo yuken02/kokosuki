@@ -7,6 +7,186 @@
       <% @playlist.playlist_video.each do |pv| %>
         <%= pv.clip.title %> <%= pv.id %></br>
       <% end %>
+      <div id="movie-menu">
+        <ul class="clip_lists list-group list-group-flush">
+          <% @playlist.playlist_video.each do |pv| %>
+            <li class="clip_list list-group-item d-flex flex-wrap">
+              <div class="clip_left mr-3" style="width:100px;">
+                <div class="clip_img mb-1" style="position: relative; width: 100%; padding-top: 56.25%;"><img src="https://img.youtube.com/vi/<%= pv.clip.video_id %>/hqdefault.jpg" alt="" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></img></div>
+                <div class="clip_time"><p class="mb-1" style="font-size:9px;">クリップの時間:
+                    <% if pv.clip.end_time %>
+                      <%= (pv.clip.end_time.to_i - pv.clip.start_time.to_i) %>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+              <div class="list_item">
+                <h6 class="list_title"><%= link_to clip_path(pv.clip.id) do %><%= pv.clip.title %><% end %></h6>
+                <div class="clip_data">
+                  <div class="channel_name"><p class="mb-0" style="font-size:14px;">チャンネル: <a href="https://www.youtube.com/channel/<%= pv.clip.channel.yt_channel_id %>" class=""><%= pv.clip.channel.name %></a></p></div>
+                  <div class="video_date d-flex flex-wrap" style="font-size:11px;">
+                    <p class="mb-0 mr-3">クリップ作成日:<%= pv.clip.created_at.strftime('%Y/%m/%d') %></p>
+                    <p class="mb-0 mr-3">投稿日: <%= pv.clip.published_at.strftime('%Y/%m/%d') %></p>
+                    <p class="mb-0" id="favorite_btn_<%= pv.clip.id %>" style="font-size:12px;"><%= render 'user/favorites/favorite_btn', clip: pv.clip %></p>
+                  </div>
+                </div>
+              </div>
+              <div class="ml-auto d-flex flex-column">
+                <div class="playlist_clip btn py-0">
+                  <i class="fas fa-play"></i>
+                </div>
+                <% if pv.playlist.user == current_user %>
+                  <div class="mx-auto">
+                  	<%= link_to playlist_playlist_video_path(pv.playlist, pv), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm py-0" do %>
+                  		<i class="fas fa-trash-alt"></i>
+                  	<% end %>
+                  </div>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sideber col-md-3">
+      <%= render 'user/users/sideber' %>
     </div>
   </div>
 </div>
+
+
+
+<script>
+//IFrame Player APIを呼び出す
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+//プレーヤーの準備
+	var ytNum = 0;
+	let thumbInsert = '';
+	let ytPlayer;
+	let ytData = [
+	  //{ youtubeのID, 開始時間(秒), 終了時間(秒) },
+	  <% @playlist.playlist_video.each do |pv| %>
+	    { id: '<%= pv.clip.video_id %>', start: '<%= pv.clip.start_time %>', end: '<%= pv.clip.end_time %>' },
+	  <%# @clips.each do |clip| %>
+	   // { id: '<%#= clip.video_id %>', start: '<%#= clip.start_time %>', end: '<%#= clip.end_time %>' },
+	  <% end %>
+	];
+
+// 動画プレーヤーの読み込み
+// 	window.onYouTubeIframeAPIReady = function() {
+	function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player('movie-play', {
+      width: '100%',
+      height: '100%',
+      videoId: ytData[0]['id'],
+			playerVars:{
+				rel: 0, //関連動画なし
+				modestbranding: 1, //YouTube ロゴなし
+				start: ytData[0]['start'],
+				end: ytData[0]['end'],
+			},
+			events: { /* イベント */
+        'onReady': onPlayerReady,   /* プレーヤの準備完了時 */
+        'onStateChange': onPlayerStateChange   /* 動画プレーヤーのステータス変更 */
+      }
+    });
+    spotArea(ytNum);
+  }
+	//動画の再生
+	function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+	function play(ytNum) {
+		ytPlayer.loadVideoById({
+			'videoId': ytData[ytNum]['id'],
+      'startSeconds': ytData[ytNum]['start'],
+      'endSeconds': ytData[ytNum]['end'],
+      'suggestedQuality': 'medium',
+			'rel': 0, //関連動画なし
+			'modestbranding': 1,
+		});
+		spotArea(ytNum);
+	}
+
+//リストクリック
+	$(function() {
+	  /* 指定した動画を再生 */
+		$('#movie-menu .playlist_clip').on('click', function() {
+			ytNum = $('#movie-menu .playlist_clip').index(this)
+				console.log(ytNum);
+				console.log(ytData[ytNum]['id']);
+		// 	spotArea(ytNum);
+			play(ytNum);
+			return false;
+		});
+	});
+
+// 連続再生
+	function onPlayerStateChange(event) {
+		if ($('#continuous_playback').parent().hasClass('active')) {
+				console.log(event);
+			playback(event);
+			if (event.data == YT.PlayerState.ENDED) { //ENDED == 0
+				if (playlog == 11) {
+					playlog = 22;
+					ytNum = parseInt(ytNum) + 1;
+						console.log(playlog);
+						console.log(ytNum);
+				// 	spotArea(ytNum)
+					play(ytNum);
+				}
+			}
+		} else if ($('#shuffle_playback').parent().hasClass('active')) {
+			console.log(event);
+			playback(event);
+			if (event.data == YT.PlayerState.ENDED) {
+				if (playlog == 11) {
+					ytNum = Math.floor( Math.random() * ytData.length );
+					playlog = 22;
+						console.log(playlog);
+						console.log(ytNum);
+				// 	spotArea(ytNum)
+					play(ytNum);
+				}
+			}
+		}
+	}
+
+	function playback(event) {
+		if (event.data == 1) {
+			playlog = 11;
+			console.log(playlog);
+		}
+	}
+
+  function spotArea(ytNum) {
+    console.log(ytNum);
+    ytNum = parseInt(ytNum);
+    $('.playlist_clip').removeClass('bg-secondary');
+    $('.playlist_clip').eq(ytNum).addClass('bg-secondary');
+  }
+
+// clipID送信用
+  $('.add_to_playlist .clip_data').click(function() {
+    var clipId = $(this).data('clip_id');
+    console.log(clipId)
+    $('#hidden_field_id').val(clipId);
+    $('#checkID').children().remove();
+    $('#checkID').append($('<span>').append(clipId));
+  });
+
+//   //初回読み込み、リロード、ページ切り替えで動く。
+// $(document).on('turbolinks:load', function() { });
+
+// //初回読み込み、ページ切り替えで動く。リロードは動かない
+// $(document).on('turbolinks:render', function() {　});
+
+// //ページ遷移前に行いたい処理用。ページ切り替えでもリロードでも動かない
+// $(document).on('turbolinks:request-start', function() {　});avascripts/script.js
+
+</script>

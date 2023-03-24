@@ -1,61 +1,11 @@
-<!--<meta name="turbolinks-visit-control" content="reload">-->
-
-<div class="container">
-  <div class="row my-5">
-    <div class="col-md-9">
-
-      <div>
-        <% if @user == current_user %>
-          <h3>マイページ</h3>
-        <% else %>
-          <h3><%= @user.name %></h3>
-        <% end %>
-      </div>
-      <div class="clip_contents">
-        <% if user_signed_in? %>
-          <div class="new_clip">
-            <%= link_to ' + ', new_clip_path, class: 'btn btn-md px-4 mb-3 btn-outline-primary' %>
-          </div>
-          <i class="fas fa-play"></i>
-          <i class="fas fa-step-backward"></i>
-          <i class="fas fa-step-forward"></i>
-          <i class="fas fa-repeat-alt"></i>
-          <i class="far fa-repeat-alt"></i>
-          <i class="fas fa-repeat"></i>
-          <i class="far fa-repeat"></i>
-          <i class="fal fa-repeat"></i>
-          <i class="fas fa-random"></i>
-          <i class="far fa-thumbs-up"></i>
-          <i class="fas fa-thumbs-up"></i>
-          <i class="fas fa-arrow-to-bottom"></i>
-          <i class="far fa-folder"></i>
-          <i class="fas fa-paperclip"></i>
-          <i class="fas fa-indent"></i>
-          <i class="fas fa-list"></i>
-          <i class="fas fa-bars"></i>
-          <i class="fas fa-grip-lines"></i>
-          <i class="fas fa-grip-vertical"></i>
-          <i class="fas fa-grip-horizontal"></i>
-          <i class="fas fa-ellipsis-h"></i>
-          <i class="fas fa-ellipsis-v"></i>
-          <i class="fas fa-clipboard-list"></i>
-          <i class="fas fa-trash-alt"></i>
-        <% end %>
-      </div>
-      <div id="user_content_box">
-        <%= render 'user/users/clips_list', clips: @clips, playlists: @playlists, playlist_new: @playlist_new %>
-      </div>
-    </div>
-
-    <div class="sideber col-md-3">
-      <%= render 'user/users/sideber' %>
-    </div>
-  </div>
-</div>
+// (document).on("ajax:success", function() {
+//   const tag = document.createElement('script');
+//   tag.src = "https://www.youtube.com/player_api";
+//   const firstScriptTag = document.getElementsByTagName('script')[0];
+//   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// });
 
 
-
-<script>
 //IFrame Player APIを呼び出す
   const tag = document.createElement('script');
   tag.src = "https://www.youtube.com/player_api";
@@ -173,4 +123,17 @@
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   });
-</script>
+
+	//   //初回読み込み、リロード、ページ切り替えで動く。
+	// $(document).on('turbolinks:load', function() { });
+
+	// //初回読み込み、ページ切り替えで動く。リロードは動かない
+	// $(document).on('turbolinks:render', function() {　});
+
+	// //ページ遷移前に行いたい処理用。ページ切り替えでもリロードでも動かない
+	// $(document).on('turbolinks:request-start', function() {　});avascripts/script.js
+
+
+	// $(document).on('turbolinks:load', function() {
+	//   // IFrame Player API の初期化コードをここに記述
+	// });

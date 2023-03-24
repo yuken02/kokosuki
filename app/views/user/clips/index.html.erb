@@ -91,10 +91,13 @@
   </div>
 
   <div class="row mt-5">
-    <div class="col-md-8 mb-3">
-      <div class="movie_center" style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">
-				<div id="movie-play" style="position: absolute; top: 0; left: 0;"></div>
-			</div>
+   <!-- <div class="col-md-8 mb-3">-->
+   <!--   <div class="movie_center" style="position: relative; height:0px; width: 100%; padding-top: 56.25%;">-->
+			<!--	<div id="movie-play" style="position: absolute; top: 0; left: 0;"></div>-->
+			<!--</div>-->
+   <!-- </div>-->
+    <div class="side_player col-md-8 mb-3">
+      <%= render 'user/clips/player' %>
     </div>
 
 		<div class="col-md-4">
