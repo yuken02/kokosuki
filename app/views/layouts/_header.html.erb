@@ -25,6 +25,11 @@
             <% end %>
           </li>
           <li class="log_out">
+            <%= link_to mypage_path(current_user.id), data: { turbolinks: false }, class: 'nav-link text-dark' do %>
+              <i class="fas fa-user"></i> <%= current_user.name %>
+            <% end %>
+          </li>
+          <li class="log_out">
             <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
               <i class="fas fa-sign-out-alt"></i> ログアウト
             <% end %>

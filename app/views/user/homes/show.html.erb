@@ -1,9 +1,7 @@
-<!--<meta name="turbolinks-visit-control" content="reload">-->
-
 <div class="container">
   <div class="row my-5">
     <div class="col-md-9">
-
+      <%= current_user.name %>
       <div>
         <% if @user == current_user %>
           <h3>マイページ</h3>
@@ -16,32 +14,6 @@
           <div class="new_clip">
             <%= link_to ' + ', new_clip_path, class: 'btn btn-md px-4 mb-3 btn-outline-primary' %>
           </div>
-          <i class="fas fa-play"></i>
-          <i class="fas fa-step-backward"></i>
-          <i class="fas fa-step-forward"></i>
-          <i class="fas fa-repeat-alt"></i>
-          <i class="far fa-repeat-alt"></i>
-          <i class="fas fa-repeat"></i>
-          <i class="far fa-repeat"></i>
-          <i class="fal fa-repeat"></i>
-          <i class="fas fa-random"></i>
-          <i class="far fa-thumbs-up"></i>
-          <i class="fas fa-thumbs-up"></i>
-          <i class="fas fa-arrow-to-bottom"></i>
-          <i class="far fa-folder"></i>
-          <i class="fas fa-paperclip"></i>
-          <i class="fas fa-indent"></i>
-          <i class="fas fa-list"></i>
-          <i class="fas fa-bars"></i>
-          <i class="fas fa-grip-lines"></i>
-          <i class="fas fa-grip-vertical"></i>
-          <i class="fas fa-grip-horizontal"></i>
-          <i class="fas fa-ellipsis-h"></i>
-          <i class="fas fa-ellipsis-v"></i>
-          <i class="fas fa-clipboard-list"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="fas fa-layer-plus"></i>
-          <i class="fas fa-tags"></i>
         <% end %>
       </div>
       <div id="user_content_box">
@@ -49,7 +21,7 @@
       </div>
     </div>
 
-    <div class="sideber col-md-3">
+    <div class="sidebar col-md-3">
       <div class="player_switch">
         <%= render 'user/clips/player_switch' %>
       </div>

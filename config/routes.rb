@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   scope module: :user do
     root to: 'homes#top'
+    get "mypage"=>"homes#show"
     resources :clips, only: [:index,:show,:new,:create,:edit,:update,:destroy] do
       resource :favorites, only: [:create, :destroy]
     end

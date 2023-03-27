@@ -14,13 +14,13 @@
                   <% end %>
                 </div>
                 <div class="ml-auto d-flex flex-wrap">
-                  <p class="mb-0 mr-3">ユーザー: <%= playlist.user.name %></p>
-                  <p class="mb-0">いいね</p>
-                  <p class="mb-0" style="font-size:12px;"><%= playlist.created_at.strftime('%Y/%m/%d') %></p>
+                  <p class="mb-0">ユーザー: <%= playlist.user.name %></p>
+                  <p class="mb-0 mx-3">いいね</p>
+                  <p class="mb-0" style=""><%= playlist.created_at.strftime('%Y/%m/%d') %></p>
                 </div>
               </div>
               <div>
-                <p class="mb-0" style="font-size:14px;">tag</p>
+                <p class="mb-0" style=""><i class="fas fa-tags"></i> tag</p>
               </div>
             </li>
           <% end %>
@@ -29,6 +29,12 @@
     </div>
 
     <div class="sideber col-md-3">
+      <!--<div class="player_switch">-->
+      <!--  <%#= render 'user/clips/player_switch' %>-->
+      <!--</div>-->
+      <!--<div class="side_player mb-3">-->
+      <!--  <%#= render 'user/clips/player' %>-->
+      <!--</div>-->
       <%= render 'user/users/sideber' %>
     </div>
 
