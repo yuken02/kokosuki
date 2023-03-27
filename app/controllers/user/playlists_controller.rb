@@ -1,5 +1,9 @@
 class User::PlaylistsController < ApplicationController
 
+  def index
+    @playlists = Playlist.all
+  end
+
   def show
     @playlist = Playlist.includes(:user, playlist_video: [:clip]).find(params[:id])
     @playlists = Playlist.where(user_id: current_user)

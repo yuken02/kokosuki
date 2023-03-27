@@ -40,11 +40,6 @@
 				      <!--<i class="fas fa-indent"></i>-->
 				    <%# end %>
           </div>
-      <div class="clip-select">
-		    <%= link_to "#", data: { clip_id: clip.id }, class: 'text-muted' do %>
-		      <i class="far fa-circle"></i>2
-		    <% end %>
-		  </div>
           <% if @user == current_user %>
             <div class="mx-auto">
             	<%= link_to clip, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm py-0" do %>

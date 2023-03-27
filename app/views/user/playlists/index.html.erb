@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row my-5">
+
+    <div class="col-md-9">
+      <h4 class="my-4">公開プレイリスト</h4>
+      <div class="playlists">
+        <ul class="playlists list-group list-group-flush">
+          <% @playlists.each do |playlist| %>
+            <li class="playlist list-group-item p-2">
+              <div class="d-flex flex-wrap">
+                <div class="mb-0">
+                  <%= link_to playlist_path(playlist.id), data: {turbolinks: false}, class: '' do %>
+                    <h4 class="mb-0"><%= playlist.name %></h4>
+                  <% end %>
+                </div>
+                <div class="ml-auto d-flex flex-wrap">
+                  <p class="mb-0 mr-3">ユーザー: <%= playlist.user.name %></p>
+                  <p class="mb-0">いいね</p>
+                  <p class="mb-0" style="font-size:12px;"><%= playlist.created_at.strftime('%Y/%m/%d') %></p>
+                </div>
+              </div>
+              <div>
+                <p class="mb-0" style="font-size:14px;">tag</p>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sideber col-md-3">
+      <%= render 'user/users/sideber' %>
+    </div>
+
+  </div>
+</div>

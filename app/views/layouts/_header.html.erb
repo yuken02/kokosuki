@@ -12,6 +12,11 @@
               <i class="far fa-play-circle"></i> Clip
             <% end %>
           </li>
+          <li>
+            <%= link_to playlists_path, data: { turbolinks: false }, class: 'nav-link text-dark' do %>
+              <i class="far fa-play-circle"></i> プレイリスト
+            <% end %>
+          </li>
         <% if user_signed_in? %>
 
           <li class="log_out">
