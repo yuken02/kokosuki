@@ -13,7 +13,8 @@ class User::UsersController < ApplicationController
       @user = User.find(params[:id])
       @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
       @playlists = Playlist.where(user_id: @user.id).includes(:user, :playlist_video)
-      when 'user', nil
+      when 'user'
+      # when 'user', nil
       @template = 'user/users/user'
       @user = User.find(params[:id])
       @clips = Clip.where(user_id: @user.id).includes(:channel, :favorites)
