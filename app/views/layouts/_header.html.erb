@@ -19,36 +19,30 @@
           </li>
         <% if user_signed_in? %>
 
-          <li class="log_out">
+          <li class="">
             <%= link_to user_path(current_user.id), data: { turbolinks: false }, class: 'nav-link text-dark' do %>
-              <i class="fas fa-user"></i> マイページ
+              <i class="fas fa-user"></i> ユーザー
             <% end %>
           </li>
-          <li class="log_out">
-            <%= link_to mypage_path(current_user.id), data: { turbolinks: false }, class: 'nav-link text-dark' do %>
-              <i class="fas fa-user"></i> <%= current_user.name %>
-            <% end %>
+
+          <li class="dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= current_user.name %>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <%= link_to mypage_path(current_user.id), data: { turbolinks: false }, class: 'dropdown-item text-dark' do %>
+                <i class="fas fa-user"></i> マイページ
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to destroy_user_session_path, method: :delete, class: 'dropdown-item text-dark' do %>
+                <i class="fas fa-sign-out-alt"></i> ログアウト
+              <% end %>
+            </div>
           </li>
-          <li class="log_out">
-            <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
-              <i class="fas fa-sign-out-alt"></i> ログアウト
-            <% end %>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark" id="dropdown-nemu" type="button" data-bs-toggle="dropdown" href="#menu_user" aria-controls="#menu_user" aria-expanded="false"><%= current_user.name %></a>
-          </li>
-            <ul id="menu_user" class="" aria-labelledby="dropdown-nemu" aria-expanded="false">
-              <li class="log_out">
-                <%= link_to user_path(current_user.id), data: { turbolinks: false }, class: 'nav-link text-dark' do %>
-                  <i class="fas fa-user"></i> マイページ
-                <% end %>
-              </li>
-              <li class="log_out">
-                <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
-                  <i class="fas fa-sign-out-alt"></i> ログアウト
-                <% end %>
-              </li>
-            </ul>
 
         <% else %>
           <li>
